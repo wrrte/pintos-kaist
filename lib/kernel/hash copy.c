@@ -394,26 +394,23 @@ remove_elem (struct hash *h, struct hash_elem *e) {
 	list_remove (&e->list_elem);
 }
 
-uint64_t spt_hash_hash(struct hash_elem *he){
+uint64_t spt_hash_hash(const struct hash_elem *he){ ///const?
 
-	struct page *p = hash_entry(he, struct page, hash_elem);
+	const struct page *p = hash_entry(he, struct page, hash_elem);
 
     return hash_bytes(&p->va, sizeof(p->va));
 }
 
-bool spt_hash_less(struct hash_elem *he1, struct hash_elem *he2, void *aux){
+bool spt_hash_less(const struct hash_elem *he1, const struct hash_elem *he2, void *aux){
 
-    struct page *p1 = hash_entry(he1, struct page, hash_elem);
-    struct page *p2 = hash_entry(he2, struct page, hash_elem);
+    const struct page *p1 = hash_entry(he1, struct page, hash_elem);
+    const struct page *p2 = hash_entry(he2, struct page, hash_elem);
 
     return p1->va < p2->va;
 }
 
 void hash_kill(struct hash_elem *he, void *aux){
-
-	struct page *page = hash_entry(he, struct page, hash_elem);
-
+	const struct page *page = hash_entry(he, struct page, hash_elem);
     destroy(page);
-	
     free(page);
 }

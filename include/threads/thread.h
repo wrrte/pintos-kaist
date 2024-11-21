@@ -5,6 +5,9 @@
 #include <list.h>
 #include <stdint.h>
 #include "threads/interrupt.h"
+
+#include "threads/synch.h"
+
 #ifdef VM
 #include "vm/vm.h"
 #endif
@@ -27,6 +30,9 @@ typedef int tid_t;
 #define PRI_MIN 0                       /* Lowest priority. */
 #define PRI_DEFAULT 31                  /* Default priority. */
 #define PRI_MAX 63                      /* Highest priority. */
+
+#define FDT_NUM	3
+#define FDI_MAX	FDT_NUM * (1<<9)
 
 /* A kernel thread or user process.
  *
@@ -91,17 +97,49 @@ struct thread {
 	enum thread_status status;          /* Thread state. */
 	char name[16];                      /* Name (for debugging purposes). */
 	int priority;                       /* Priority. */
+	int opriority;
+
+	int64_t awake_time;
 
 	/* Shared between thread.c and synch.c. */
 	struct list_elem elem;              /* List element. */
 
+	struct lock *locked_lock;
+	struct list donor;
+	struct list_elem delem;
+
+	int nice;
+	int recent_cpu;
+
+	struct list_elem diligent_elem;
+
 #ifdef USERPROG
 	/* Owned by userprog/process.c. */
 	uint64_t *pml4;                     /* Page map level 4 */
+
+	int exit_code;
+
+	struct intr_frame parent_if;
+
+	int file_descripter_index;
+	struct file **file_descripter_table;
+	struct file *runfile;
+
+	struct semaphore wait_sema;
+	struct semaphore exit_sema;
+	struct semaphore fork_sema;
+
+	struct list child_list;
+	struct list_elem child_elem;
+	
 #endif
 #ifdef VM
 	/* Table for whole virtual memory owned by thread. */
 	struct supplemental_page_table spt;
+
+	void *stack_bottom;
+	void *stack_pointer;
+	
 #endif
 
 	/* Owned by thread.c. */
@@ -142,5 +180,26 @@ int thread_get_recent_cpu (void);
 int thread_get_load_avg (void);
 
 void do_iret (struct intr_frame *tf);
+
+#define F (1<<14)
+
+bool atc(const struct list_elem *e1, const struct list_elem *e2);
+bool tpc(const struct list_elem *e1, const struct list_elem *e2);
+void thread_timer_sleep(int64_t t);
+void thread_timer_awake(int64_t ticks);
+void yield_if_H_ready(void);
+
+void mlfqs_priority(struct thread *curr);
+void mlfqs_update_priority(void);
+void TIMER_FREQ_intr1(void);
+void TIMER_FREQ_intr2(void);
+
+int x2n_floor(int x);
+int x2n_round(int x);
+int nxmul(int n, int x);
+int nxdiv(int n, int x);
+int nxadd(int n, int x);
+int xydiv(int x, int y);
+int xymul(int x, int y);
 
 #endif /* threads/thread.h */

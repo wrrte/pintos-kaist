@@ -66,7 +66,7 @@ sema_down (struct semaphore *sema) {
 
 	old_level = intr_disable ();
 	while (sema->value == 0) {
-		list_push_back (&sema->waiters, &thread_current ()->elem);
+		list_insert_ordered (&sema->waiters, &thread_current ()->elem, tpc, NULL);
 		thread_block ();
 	}
 	sema->value--;
@@ -109,10 +109,12 @@ sema_up (struct semaphore *sema) {
 	ASSERT (sema != NULL);
 
 	old_level = intr_disable ();
-	if (!list_empty (&sema->waiters))
-		thread_unblock (list_entry (list_pop_front (&sema->waiters),
-					struct thread, elem));
+	if (!list_empty (&sema->waiters)){
+		list_sort(&sema->waiters, tpc, NULL); ///없어도 무방...?
+		thread_unblock (list_entry (list_pop_front (&sema->waiters), struct thread, elem));
+	}
 	sema->value++;
+	yield_if_H_ready();
 	intr_set_level (old_level);
 }
 
@@ -188,7 +190,22 @@ lock_acquire (struct lock *lock) {
 	ASSERT (!intr_context ());
 	ASSERT (!lock_held_by_current_thread (lock));
 
+	struct thread *curr = thread_current();
+
+	if(lock->holder != NULL){
+
+		curr->locked_lock = lock;
+
+		list_insert_ordered(&lock->holder->donor, &curr->delem, dpc, NULL);
+
+		donate_priority();
+
+	}
+
+	//ASSERT(curr->locked_lock != NULL);
+
 	sema_down (&lock->semaphore);
+	curr->locked_lock = NULL;
 	lock->holder = thread_current ();
 }
 
@@ -221,6 +238,21 @@ void
 lock_release (struct lock *lock) {
 	ASSERT (lock != NULL);
 	ASSERT (lock_held_by_current_thread (lock));
+
+	struct list *donor = &(lock->holder->donor);
+	struct thread *dth;
+
+	if(!list_empty(donor))
+		for(struct list_elem *de = list_front(donor); de != list_end(donor); de = list_next(de)){
+
+			dth = list_entry(de, struct thread, delem);
+
+			if(dth->locked_lock == lock)
+				list_remove(&dth->delem);
+
+		}
+
+	update_priority();
 
 	lock->holder = NULL;
 	sema_up (&lock->semaphore);
@@ -282,7 +314,7 @@ cond_wait (struct condition *cond, struct lock *lock) {
 	ASSERT (lock_held_by_current_thread (lock));
 
 	sema_init (&waiter.semaphore, 0);
-	list_push_back (&cond->waiters, &waiter.elem);
+	list_insert_ordered (&cond->waiters, &waiter.elem, spc, NULL);
 	lock_release (lock);
 	sema_down (&waiter.semaphore);
 	lock_acquire (lock);
@@ -302,9 +334,11 @@ cond_signal (struct condition *cond, struct lock *lock UNUSED) {
 	ASSERT (!intr_context ());
 	ASSERT (lock_held_by_current_thread (lock));
 
-	if (!list_empty (&cond->waiters))
+	if (!list_empty (&cond->waiters)){
+		list_sort(&cond->waiters, spc, NULL);///
 		sema_up (&list_entry (list_pop_front (&cond->waiters),
 					struct semaphore_elem, elem)->semaphore);
+	}
 }
 
 /* Wakes up all threads, if any, waiting on COND (protected by
@@ -320,4 +354,60 @@ cond_broadcast (struct condition *cond, struct lock *lock) {
 
 	while (!list_empty (&cond->waiters))
 		cond_signal (cond, lock);
+}
+
+bool dpc(const struct list_elem *e1, const struct list_elem *e2){
+	struct thread *te1 = list_entry(e1, struct thread, delem);
+	struct thread *te2 = list_entry(e2, struct thread, delem);
+	return te1->priority > te2->priority;
+}
+
+bool spc(const struct list_elem *e1, const struct list_elem *e2){
+
+	struct semaphore_elem *se1 = list_entry(e1, struct semaphore_elem, elem);
+	struct semaphore_elem *se2 = list_entry(e2, struct semaphore_elem, elem);
+
+	struct list *l1 = &se1->semaphore.waiters;
+	struct list *l2 = &se2->semaphore.waiters;
+
+	struct thread *te1 = list_entry(list_begin(l1), struct thread, elem);
+	struct thread *te2 = list_entry(list_begin(l2), struct thread, elem);
+
+	return te1->priority > te2->priority;
+}
+
+void donate_priority(void){
+
+	//printf("donate_priority call\n");
+
+	struct thread *holder = thread_current();
+	int priority = holder->priority;
+	
+	for(int i = 0; i<8; i++){
+
+		if(holder->locked_lock == NULL || holder->locked_lock->holder == NULL) 
+			break;
+
+		holder = holder->locked_lock->holder;
+
+		holder->priority = priority;
+	}
+
+}
+
+void update_priority(void){
+
+	//printf("update_priority call\n");
+	
+	struct thread *curr = thread_current();
+	struct list *donor = &curr->donor;
+
+	if(list_empty(donor)){
+		//printf("update_priority 2\n");
+		curr->priority = curr->opriority;
+		return;
+	}
+		
+	curr->priority = list_entry(list_front(donor), struct thread, delem)->priority;
+	
 }

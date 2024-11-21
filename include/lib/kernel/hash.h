@@ -97,4 +97,8 @@ uint64_t hash_bytes (const void *, size_t);
 uint64_t hash_string (const char *);
 uint64_t hash_int (int);
 
+uint64_t spt_hash_hash(struct hash_elem *he);
+bool spt_hash_less(struct hash_elem *he1, struct hash_elem *he2, void *aux);
+void hash_kill(struct hash_elem *he, void *aux);
+
 #endif /* lib/kernel/hash.h */

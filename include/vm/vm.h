@@ -3,6 +3,10 @@
 #include <stdbool.h>
 #include "threads/palloc.h"
 
+#include <hash.h>
+
+#define STACK_LIMIT (USER_STACK - (1 << 20))
+
 enum vm_type {
 	/* page not initialized */
 	VM_UNINIT = 0,
@@ -47,6 +51,10 @@ struct page {
 
 	/* Your implementation */
 
+	struct hash_elem hash_elem;
+	bool write_bit;
+	bool accessible;
+
 	/* Per-type data are binded into the union.
 	 * Each function automatically detects the current union */
 	union {
@@ -63,6 +71,9 @@ struct page {
 struct frame {
 	void *kva;
 	struct page *page;
+
+	struct list_elem frame_elem;
+	
 };
 
 /* The function table for page operations.
@@ -85,6 +96,7 @@ struct page_operations {
  * We don't want to force you to obey any specific design for this struct.
  * All designs up to you for this. */
 struct supplemental_page_table {
+	struct hash spt_hash;
 };
 
 #include "threads/thread.h"
