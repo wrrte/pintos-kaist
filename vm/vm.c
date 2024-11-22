@@ -269,6 +269,10 @@ vm_do_claim_page (struct page *page) {
 	return swap_in (page, frame->kva);
 }
 
+static bool vm_copy_anon_page(struct supplemental_page_table *dst, void *kva, void *va, bool writable){
+	return false;
+}
+
 /* Initialize new supplemental page table */
 void
 supplemental_page_table_init (struct supplemental_page_table *spt UNUSED) {
@@ -302,8 +306,8 @@ supplemental_page_table_copy (struct supplemental_page_table *dst UNUSED,
 				if(!vm_alloc_page(src_page->operations->type, src_page->va, src_page->write_bit))
 					return false;
 				
-				if (!vm_copy_claim_page(dst, upage, src_page->frame->kva, write_bit))  // 물리 메모리와 매핑하고 initialize
-                    goto err;
+				if (!vm_copy_anon_page(dst, src_page->frame->kva, src_page->va, src_page->write_bit))
+                    return false;
 					
 				break;
 
