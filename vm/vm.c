@@ -270,7 +270,17 @@ vm_do_claim_page (struct page *page) {
 }
 
 static bool vm_copy_anon_page(struct supplemental_page_table *dst, void *kva, void *va, bool writable){
-	return false;
+
+	struct page *page = spt_find_page(dst, va);
+
+	struct frame *frame = (struct frame *)malloc(sizeof(struct frame));
+
+	page->frame = frame;
+	page->write_bit = writable;
+	frame->page = page;
+	frame->kva = kva;
+	
+	return swap_in(page, frame->kva);
 }
 
 /* Initialize new supplemental page table */
