@@ -202,6 +202,26 @@ vm_stack_growth (void *addr UNUSED) {
 /* Handle the fault on write_protected page */
 static bool
 vm_handle_wp (struct page *page UNUSED) {
+	
+	if(!page->rw){
+		return false;
+	}
+
+	void* old_kva = page->frame->kva;
+
+	page->frame->kva = palloc_get_page(PAL_USER | PAL_ZERO);
+
+	if(!page->frame->kva){
+		page->frame = vm_evict_frame();
+	}
+
+	memcpy(page->frame->kva, old_kva, PGSIZE);
+
+	if (!pml4_set_page(thread_current()->pml4, page->va, page->frame->kva, page->rw)){
+        return false;
+	}
+
+	return true;
 }
 
 /* Return true on success */
@@ -215,6 +235,10 @@ vm_try_handle_fault (struct intr_frame *f UNUSED, void *addr UNUSED,
 
 	if(addr == NULL || is_kernel_vaddr(addr))
         return false;
+
+	if(write && !not_present){
+		return vm_handle_wp(page);
+	}
 
 	if(!page) {
 

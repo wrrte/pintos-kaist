@@ -1,4 +1,4 @@
-TOTAL TESTING SCORE: 61.4%
+TOTAL TESTING SCORE: 69.3%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -8,14 +8,14 @@ Test Set                                      Pts Max  % Ttl  % Max
 --------------------------------------------- --- --- ------ ------
 tests/threads/Rubric.alarm                      7/  7   1.0%/  1.0%
 tests/threads/Rubric.priority                  25/ 25   1.0%/  1.0%
-tests/userprog/Rubric.functionality            22/ 40   4.4%/  8.0%
-tests/userprog/Rubric.robustness               32/ 40   4.0%/  5.0%
-tests/vm/Rubric.functionality                  40/ 82  29.3%/ 60.0%
-tests/vm/Rubric.robustness                     26/ 29  17.9%/ 20.0%
+tests/userprog/Rubric.functionality            34/ 40   6.8%/  8.0%
+tests/userprog/Rubric.robustness               36/ 40   4.5%/  5.0%
+tests/vm/Rubric.functionality                  44/ 82  32.2%/ 60.0%
+tests/vm/Rubric.robustness                     29/ 29  20.0%/ 20.0%
 tests/filesys/base/Rubric                      13/ 17   3.8%/  5.0%
 tests/vm/cow/Rubric                             0/  1   0.0%/ 25.0%
 --------------------------------------------- --- --- ------ ------
-Total                                                  61.4%/125.0%
+Total                                                  69.3%/125.0%
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -85,8 +85,8 @@ Functionality of system calls (tests/userprog/Rubric.functionality):
 	     1/ 1 tests/userprog/close-normal
 
 	- Test "fork" system call.
-	  ** 0/ 1 tests/userprog/fork-once
-	  ** 0/ 1 tests/userprog/fork-multiple
+	     1/ 1 tests/userprog/fork-once
+	     1/ 1 tests/userprog/fork-multiple
 	  ** 0/ 2 tests/userprog/fork-close
 	  ** 0/ 2 tests/userprog/fork-read
 
@@ -96,8 +96,8 @@ Functionality of system calls (tests/userprog/Rubric.functionality):
 	  ** 0/ 2 tests/userprog/exec-read
 
 	- Test "wait" system call.
-	  ** 0/ 1 tests/userprog/wait-simple
-	  ** 0/ 1 tests/userprog/wait-twice
+	     1/ 1 tests/userprog/wait-simple
+	     1/ 1 tests/userprog/wait-twice
 
 	- Test "exit" system call.
 	     1/ 1 tests/userprog/exit
@@ -106,17 +106,17 @@ Functionality of system calls (tests/userprog/Rubric.functionality):
 	     1/ 1 tests/userprog/halt
 
 	- Test recursive execution of user programs.
-	  ** 0/ 2 tests/userprog/fork-recursive
-	  ** 0/ 2 tests/userprog/multi-recurse
+	     2/ 2 tests/userprog/fork-recursive
+	     2/ 2 tests/userprog/multi-recurse
 
 	- Test read-only executable feature.
 	     1/ 1 tests/userprog/rox-simple
-	  ** 0/ 2 tests/userprog/rox-child
-	  ** 0/ 2 tests/userprog/rox-multichild
+	     2/ 2 tests/userprog/rox-child
+	     2/ 2 tests/userprog/rox-multichild
 
 	- Section summary.
-	     22/ 33 tests passed
-	     22/ 40 points subtotal
+	     30/ 33 tests passed
+	     34/ 40 points subtotal
 
 Robustness of system calls (tests/userprog/Rubric.robustness):
 	- Test robustness of file descriptor handling.
@@ -126,7 +126,7 @@ Robustness of system calls (tests/userprog/Rubric.robustness):
 	     1/ 1 tests/userprog/read-stdout
 	     1/ 1 tests/userprog/write-bad-fd
 	     1/ 1 tests/userprog/write-stdin
-	  ** 0/ 2 tests/userprog/multi-child-fd
+	     2/ 2 tests/userprog/multi-child-fd
 
 	- Test robustness of pointer handling.
 	     1/ 1 tests/userprog/create-bad-ptr
@@ -151,7 +151,7 @@ Robustness of system calls (tests/userprog/Rubric.robustness):
 	- Test robustness of "fork", "exec" and "wait" system calls.
 	     2/ 2 tests/userprog/exec-missing
 	     2/ 2 tests/userprog/wait-bad-pid
-	  ** 0/ 2 tests/userprog/wait-killed
+	     2/ 2 tests/userprog/wait-killed
 
 	- Test robustness of exception handling.
 	     1/ 1 tests/userprog/bad-read
@@ -162,8 +162,8 @@ Robustness of system calls (tests/userprog/Rubric.robustness):
 	     1/ 1 tests/userprog/bad-jump2
 
 	- Section summary.
-	     26/ 30 tests passed
-	     32/ 40 points subtotal
+	     28/ 30 tests passed
+	     36/ 40 points subtotal
 
 Functionality of virtual memory subsystem (tests/vm/Rubric.functionality):
 	- Test stack growth.
@@ -173,7 +173,7 @@ Functionality of virtual memory subsystem (tests/vm/Rubric.functionality):
 
 	- Test paging behavior.
 	     1/ 1 tests/vm/page-linear
-	  ** 0/ 4 tests/vm/page-parallel
+	     4/ 4 tests/vm/page-parallel
 	     2/ 2 tests/vm/page-shuffle
 	  ** 0/ 2 tests/vm/page-merge-seq
 	  ** 0/ 5 tests/vm/page-merge-par
@@ -204,8 +204,8 @@ Functionality of virtual memory subsystem (tests/vm/Rubric.functionality):
 	     4/ 4 tests/vm/lazy-file
 
 	- Section summary.
-	     15/ 27 tests passed
-	     40/ 82 points subtotal
+	     16/ 27 tests passed
+	     44/ 82 points subtotal
 
 Robustness of virtual memory subsystem (tests/vm/Rubric.robustness):
 	- Test robustness of page table support.
@@ -220,7 +220,7 @@ Robustness of virtual memory subsystem (tests/vm/Rubric.robustness):
 	     1/ 1 tests/vm/mmap-bad-fd2
 	     1/ 1 tests/vm/mmap-bad-fd3
 
-	  ** 0/ 3 tests/vm/mmap-inherit
+	     3/ 3 tests/vm/mmap-inherit
 	     1/ 1 tests/vm/mmap-null
 	     1/ 1 tests/vm/mmap-zero
 	     2/ 2 tests/vm/mmap-zero-len
@@ -235,8 +235,8 @@ Robustness of virtual memory subsystem (tests/vm/Rubric.robustness):
 	     2/ 2 tests/vm/mmap-kernel
 
 	- Section summary.
-	     18/ 19 tests passed
-	     26/ 29 points subtotal
+	     19/ 19 tests passed
+	     29/ 29 points subtotal
 
 Functionality of base file system (tests/filesys/base/Rubric):
 	- Test basic support for small files.
@@ -273,158 +273,14 @@ Functionality of copy-on-write (tests/vm/cow/Rubric):
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/userprog/fork-once FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (fork-once) begin
-  (fork-once) child run
-  child: exit(81)
-  (fork-once) Parent: child exit status is 81
-  (fork-once) end
-  fork-once: exit(0)
-Differences in `diff -u' format:
-  (fork-once) begin
-- (fork-once) child run
-- child: exit(81)
-- (fork-once) Parent: child exit status is 81
-+ child: exit(-1)
-+ (fork-once) Parent: child exit status is -1
-  (fork-once) end
-  fork-once: exit(0)
-
-OUTPUT FROM tests/userprog/fork-once:
-
-Kernel command line: -q -f put fork-once run fork-once
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 103 sector (51 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'fork-once' into the file system...
-Executing 'fork-once':
-(fork-once) begin
-child: exit(-1)
-(fork-once) Parent: child exit status is -1
-(fork-once) end
-fork-once: exit(0)
-Execution of 'fork-once' complete.
-Timer: 79 ticks
-Thread: 33 idle ticks, 43 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 80 reads, 234 writes
-hd1:0: 103 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1007 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/fork-multiple FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (fork-multiple) begin
-  (fork-multiple) child run
-  child: exit(4)
-  (fork-multiple) Parent: child exit status is 4
-  (fork-multiple) child run
-  child: exit(5)
-  (fork-multiple) Parent: child exit status is 5
-  (fork-multiple) child run
-  child: exit(6)
-  (fork-multiple) Parent: child exit status is 6
-  (fork-multiple) child run
-  child: exit(7)
-  (fork-multiple) Parent: child exit status is 7
-  (fork-multiple) end
-  fork-multiple: exit(0)
-Differences in `diff -u' format:
-  (fork-multiple) begin
-- (fork-multiple) child run
-- child: exit(4)
-- (fork-multiple) Parent: child exit status is 4
-- (fork-multiple) child run
-- child: exit(5)
-- (fork-multiple) Parent: child exit status is 5
-- (fork-multiple) child run
-- child: exit(6)
-- (fork-multiple) Parent: child exit status is 6
-- (fork-multiple) child run
-- child: exit(7)
-- (fork-multiple) Parent: child exit status is 7
-+ child: exit(-1)
-+ (fork-multiple) Parent: child exit status is -1
-+ child: exit(-1)
-+ (fork-multiple) Parent: child exit status is -1
-+ child: exit(-1)
-+ (fork-multiple) Parent: child exit status is -1
-+ child: exit(-1)
-+ (fork-multiple) Parent: child exit status is -1
-  (fork-multiple) end
-  fork-multiple: exit(0)
-
-OUTPUT FROM tests/userprog/fork-multiple:
-
-Kernel command line: -q -f put fork-multiple run fork-multiple
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 104 sector (52 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'fork-multiple' into the file system...
-Executing 'fork-multiple':
-(fork-multiple) begin
-child: exit(-1)
-(fork-multiple) Parent: child exit status is -1
-child: exit(-1)
-(fork-multiple) Parent: child exit status is -1
-child: exit(-1)
-(fork-multiple) Parent: child exit status is -1
-child: exit(-1)
-(fork-multiple) Parent: child exit status is -1
-(fork-multiple) end
-fork-multiple: exit(0)
-Execution of 'fork-multiple' complete.
-Timer: 84 ticks
-Thread: 32 idle ticks, 47 kernel ticks, 5 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 87 reads, 236 writes
-hd1:0: 104 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1235 characters output
-Keyboard: 0 keys pressed
-Exception: 4 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/userprog/fork-close FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -449,12 +305,12 @@ Executing 'fork-close':
 (fork-close) begin
 (fork-close) open "sample.txt"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 84 ticks
-Thread: 38 idle ticks, 44 kernel ticks, 2 user ticks
+Timer: 81 ticks
+Thread: 31 idle ticks, 48 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 112 reads, 258 writes
 hd1:0: 110 reads, 0 writes
@@ -466,11 +322,11 @@ Key
 DETAILS OF tests/userprog/fork-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -482,7 +338,7 @@ Kernel command line: -q -f put fork-read put sample.txt run fork-read
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  130,867,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 111 sector (55 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -495,12 +351,12 @@ Executing 'fork-read':
 (fork-read) begin
 (fork-read) open "sample.txt"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 83 ticks
-Thread: 32 idle ticks, 49 kernel ticks, 2 user ticks
+Timer: 85 ticks
+Thread: 37 idle ticks, 48 kernel ticks, 0 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 115 reads, 260 writes
 hd1:0: 111 reads, 0 writes
@@ -512,11 +368,11 @@ Key
 DETAILS OF tests/userprog/exec-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -543,12 +399,12 @@ Executing 'exec-read':
 (exec-read) open "sample.txt"
 (exec-read) read "sample.txt" first 20 bytes
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
 Timer: 87 ticks
-Thread: 38 idle ticks, 46 kernel ticks, 3 user ticks
+Thread: 37 idle ticks, 48 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 143 reads, 506 writes
 hd1:0: 229 reads, 0 writes
@@ -557,429 +413,14 @@ Console: 1423 characters output
 Key
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/userprog/wait-simple FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (wait-simple) begin
-  (child-simple) run
-  child-simple: exit(81)
-  (wait-simple) wait(exec()) = 81
-  (wait-simple) end
-  wait-simple: exit(0)
-Differences in `diff -u' format:
-  (wait-simple) begin
-- (child-simple) run
-- child-simple: exit(81)
-- (wait-simple) wait(exec()) = 81
-+ child-simple: exit(-1)
-+ (wait-simple) wait(exec()) = -1
-  (wait-simple) end
-  wait-simple: exit(0)
-
-OUTPUT FROM tests/userprog/wait-simple:
-
-Kernel command line: -q -f put wait-simple put child-simple run wait-simple
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 204 sector (102 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'wait-simple' into the file system...
-Putting 'child-simple' into the file system...
-Executing 'wait-simple':
-(wait-simple) begin
-child-simple: exit(-1)
-(wait-simple) wait(exec()) = -1
-(wait-simple) end
-wait-simple: exit(0)
-Execution of 'wait-simple' complete.
-Timer: 87 ticks
-Thread: 37 idle ticks, 49 kernel ticks, 1 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 107 reads, 446 writes
-hd1:0: 204 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1084 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/wait-twice FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (wait-twice) begin
-  (child-simple) run
-  child-simple: exit(81)
-  (wait-twice) wait(exec()) = 81
-  (wait-twice) wait(exec()) = -1
-  (wait-twice) end
-  wait-twice: exit(0)
-Differences in `diff -u' format:
-  (wait-twice) begin
-- (child-simple) run
-- child-simple: exit(81)
-- (wait-twice) wait(exec()) = 81
-+ child-simple: exit(-1)
-+ (wait-twice) wait(exec()) = -1
-  (wait-twice) wait(exec()) = -1
-  (wait-twice) end
-  wait-twice: exit(0)
-
-OUTPUT FROM tests/userprog/wait-twice:
-
-Kernel command line: -q -f put wait-twice put child-simple run wait-twice
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 204 sector (102 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'wait-twice' into the file system...
-Putting 'child-simple' into the file system...
-Executing 'wait-twice':
-(wait-twice) begin
-child-simple: exit(-1)
-(wait-twice) wait(exec()) = -1
-(wait-twice) wait(exec()) = -1
-(wait-twice) end
-wait-twice: exit(0)
-Execution of 'wait-twice' complete.
-Timer: 88 ticks
-Thread: 35 idle ticks, 50 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 107 reads, 446 writes
-hd1:0: 204 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1106 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/fork-recursive FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (fork-recursive) begin
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  (fork-recursive) child run
-  child: exit(10)
-  (fork-recursive) Parent: child exit status is 10
-  child: exit(10)
-  (fork-recursive) Parent: child exit status is 10
-  child: exit(9)
-  (fork-recursive) Parent: child exit status is 9
-  child: exit(8)
-  (fork-recursive) Parent: child exit status is 8
-  child: exit(7)
-  (fork-recursive) Parent: child exit status is 7
-  child: exit(6)
-  (fork-recursive) Parent: child exit status is 6
-  child: exit(5)
-  (fork-recursive) Parent: child exit status is 5
-  child: exit(4)
-  (fork-recursive) Parent: child exit status is 4
-  (fork-recursive) end
-  fork-recursive: exit(0)
-Differences in `diff -u' format:
-  (fork-recursive) begin
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- (fork-recursive) child run
-- child: exit(10)
-- (fork-recursive) Parent: child exit status is 10
-- child: exit(10)
-- (fork-recursive) Parent: child exit status is 10
-- child: exit(9)
-- (fork-recursive) Parent: child exit status is 9
-- child: exit(8)
-- (fork-recursive) Parent: child exit status is 8
-- child: exit(7)
-- (fork-recursive) Parent: child exit status is 7
-- child: exit(6)
-- (fork-recursive) Parent: child exit status is 6
-- child: exit(5)
-- (fork-recursive) Parent: child exit status is 5
-- child: exit(4)
-- (fork-recursive) Parent: child exit status is 4
-+ child: exit(-1)
-+ (fork-recursive) Parent: child exit status is -1
-  (fork-recursive) end
-  fork-recursive: exit(0)
-
-OUTPUT FROM tests/userprog/fork-recursive:
-
-Kernel command line: -q -f put fork-recursive run fork-recursive
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 104 sector (52 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'fork-recursive' into the file system...
-Executing 'fork-recursive':
-(fork-recursive) begin
-child: exit(-1)
-(fork-recursive) Parent: child exit status is -1
-(fork-recursive) end
-fork-recursive: exit(0)
-Execution of 'fork-recursive' complete.
-Timer: 87 ticks
-Thread: 30 idle ticks, 51 kernel ticks, 6 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 87 reads, 236 writes
-hd1:0: 104 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1052 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/multi-recurse FAILURE:
-
-run: fork() returned -1: FAILED
-
-OUTPUT FROM tests/userprog/multi-recurse:
-
-Kernel command line: -q -f put multi-recurse run 'multi-recurse 15'
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 113 sector (56 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'multi-recurse' into the file system...
-Executing 'multi-recurse 15':
-(multi-recurse) begin 15
-(multi-recurse) exec("multi-recurse 14")
-multi-recurse: exit(-1)
-(multi-recurse) fork() returned -1: FAILED
-multi-recurse: exit(1)
-Execution of 'multi-recurse' complete.
-Timer: 81 ticks
-Thread: 34 idle ticks, 44 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 87 reads, 254 writes
-hd1:0: 113 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1078 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/rox-child FAILURE:
-
-run: fork() returned -1: FAILED
-
-OUTPUT FROM tests/userprog/rox-child:
-
-Kernel command line: -q -f put rox-child put child-rox run rox-child
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 220 sector (110 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'rox-child' into the file system...
-Putting 'child-rox' into the file system...
-Executing 'rox-child':
-(rox-child) begin
-(rox-child) open "child-rox"
-(rox-child) read "child-rox"
-(rox-child) write "child-rox"
-(rox-child) exec "child-rox 1"
-child-rox: exit(-1)
-(rox-child) fork() returned -1: FAILED
-rox-child: exit(1)
-Execution of 'rox-child' complete.
-Timer: 84 ticks
-Thread: 34 idle ticks, 47 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 114 reads, 479 writes
-hd1:0: 220 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1169 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/rox-multichild FAILURE:
-
-run: fork() returned -1: FAILED
-
-OUTPUT FROM tests/userprog/rox-multichild:
-
-Kernel command line: -q -f put rox-multichild put child-rox run rox-multichild
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 220 sector (110 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'rox-multichild' into the file system...
-Putting 'child-rox' into the file system...
-Executing 'rox-multichild':
-(rox-multichild) begin
-(rox-multichild) open "child-rox"
-(rox-multichild) read "child-rox"
-(rox-multichild) write "child-rox"
-(rox-multichild) exec "child-rox 5"
-child-rox: exit(-1)
-(rox-multichild) fork() returned -1: FAILED
-rox-multichild: exit(1)
-Execution of 'rox-multichild' complete.
-Timer: 89 ticks
-Thread: 37 idle ticks, 50 kernel ticks, 2 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 114 reads, 479 writes
-hd1:0: 220 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1229 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/userprog/multi-child-fd FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (multi-child-fd) begin
-  (multi-child-fd) open "sample.txt"
-  (child-close) begin
-  (child-close) verified contents of "sample.txt"
-  (child-close) end
-  child-close: exit(0)
-  (multi-child-fd) wait(exec()) = 0
-  (multi-child-fd) verified contents of "sample.txt"
-  (multi-child-fd) end
-  multi-child-fd: exit(0)
-Differences in `diff -u' format:
-  (multi-child-fd) begin
-  (multi-child-fd) open "sample.txt"
-- (child-close) begin
-- (child-close) verified contents of "sample.txt"
-- (child-close) end
-- child-close: exit(0)
-- (multi-child-fd) wait(exec()) = 0
-+ child-close: exit(-1)
-+ (multi-child-fd) wait(exec()) = -1
-  (multi-child-fd) verified contents of "sample.txt"
-  (multi-child-fd) end
-  multi-child-fd: exit(0)
-
-OUTPUT FROM tests/userprog/multi-child-fd:
-
-Kernel command line: -q -f put multi-child-fd put sample.txt put child-close run multi-child-fd
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 220 sector (110 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'multi-child-fd' into the file system...
-Putting 'sample.txt' into the file system...
-Putting 'child-close' into the file system...
-Executing 'multi-child-fd':
-(multi-child-fd) begin
-(multi-child-fd) open "sample.txt"
-child-close: exit(-1)
-(multi-child-fd) wait(exec()) = -1
-(multi-child-fd) verified contents of "sample.txt"
-(multi-child-fd) end
-multi-child-fd: exit(0)
-Execution of 'multi-child-fd' complete.
-Timer: 84 ticks
-Thread: 34 idle ticks, 47 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 149 reads, 488 writes
-hd1:0: 220 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1254 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/userprog/fork-boundary FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1002,12 +443,12 @@ Putting 'fork-boundary' into the file system...
 Executing 'fork-boundary':
 (fork-boundary) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 82 ticks
-Thread: 35 idle ticks, 46 kernel ticks, 1 user ticks
+Timer: 79 ticks
+Thread: 33 idle ticks, 45 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 80 reads, 240 writes
 hd1:0: 106 reads, 0 writes
@@ -1019,11 +460,11 @@ Key
 DETAILS OF tests/userprog/exec-boundary FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1047,12 +488,12 @@ Putting 'child-simple' into the file system...
 Executing 'exec-boundary':
 (exec-boundary) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 86 ticks
-Thread: 36 idle ticks, 49 kernel ticks, 1 user ticks
+Timer: 82 ticks
+Thread: 36 idle ticks, 46 kernel ticks, 0 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 452 writes
 hd1:0: 207 reads, 0 writes
@@ -1061,130 +502,14 @@ Console: 1312 characters output
 Key
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/userprog/wait-killed FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (wait-killed) begin
-  (child-bad) begin
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-Differences in `diff -u' format:
-  (wait-killed) begin
-- (child-bad) begin
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-Acceptable output:
-  (wait-killed) begin
-  (child-bad) begin
-  load: pintos: open failed
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-Differences in `diff -u' format:
-  (wait-killed) begin
-- (child-bad) begin
-- load: pintos: open failed
-  child-bad: exit(-1)
-  (wait-killed) wait(exec()) = -1
-  (wait-killed) end
-  wait-killed: exit(0)
-
-OUTPUT FROM tests/userprog/wait-killed:
-
-Kernel command line: -q -f put wait-killed put child-bad run wait-killed
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  91,648,000 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 205 sector (102 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'wait-killed' into the file system...
-Putting 'child-bad' into the file system...
-Executing 'wait-killed':
-(wait-killed) begin
-child-bad: exit(-1)
-(wait-killed) wait(exec()) = -1
-(wait-killed) end
-wait-killed: exit(0)
-Execution of 'wait-killed' complete.
-Timer: 85 ticks
-Thread: 34 idle ticks, 48 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 107 reads, 448 writes
-hd1:0: 205 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1074 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-DETAILS OF tests/vm/page-parallel FAILURE:
-
-run: wait for child 0: FAILED
-
-OUTPUT FROM tests/vm/page-parallel:
-
-Kernel command line: -q -f put page-parallel put child-linear run page-parallel
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 209 sector (104 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'page-parallel' into the file system...
-Putting 'child-linear' into the file system...
-Executing 'page-parallel':
-(page-parallel) begin
-child-linear: exit(-1)
-child-linear: exit(-1)
-child-linear: exit(-1)
-child-linear: exit(-1)
-(page-parallel) wait for child 0
-(page-parallel) wait for child 0: FAILED
-page-parallel: exit(1)
-Execution of 'page-parallel' complete.
-Timer: 84 ticks
-Thread: 33 idle ticks, 48 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 107 reads, 456 writes
-hd1:0: 209 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1191 characters output
-Keyboard: 0 keys pressed
-Exception: 4 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/vm/page-merge-seq FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1210,12 +535,12 @@ Executing 'page-merge-seq':
 (page-merge-seq) init
 (page-merge-seq) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 162 ticks
-Thread: 39 idle ticks, 47 kernel ticks, 76 user ticks
+Timer: 158 ticks
+Thread: 34 idle ticks, 49 kernel ticks, 75 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 734 writes
 hd1:0: 216 reads, 0 writes
@@ -1227,11 +552,11 @@ Key
 DETAILS OF tests/vm/page-merge-par FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1257,12 +582,12 @@ Executing 'page-merge-par':
 (page-merge-par) init
 (page-merge-par) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 220 ticks
-Thread: 41 idle ticks, 48 kernel ticks, 131 user ticks
+Timer: 223 ticks
+Thread: 42 idle ticks, 48 kernel ticks, 133 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 998 writes
 hd1:0: 218 reads, 0 writes
@@ -1274,11 +599,11 @@ Key
 DETAILS OF tests/vm/page-merge-mm FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1304,12 +629,12 @@ Executing 'page-merge-mm':
 (page-merge-mm) init
 (page-merge-mm) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 242 ticks
-Thread: 40 idle ticks, 51 kernel ticks, 151 user ticks
+Timer: 213 ticks
+Thread: 36 idle ticks, 47 kernel ticks, 130 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 140 reads, 1010 writes
 hd1:0: 224 reads, 0 writes
@@ -1321,11 +646,11 @@ Key
 DETAILS OF tests/vm/page-merge-stk FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1351,12 +676,12 @@ Executing 'page-merge-stk':
 (page-merge-stk) init
 (page-merge-stk) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 210 ticks
-Thread: 37 idle ticks, 44 kernel ticks, 129 user ticks
+Timer: 211 ticks
+Thread: 39 idle ticks, 45 kernel ticks, 127 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 1010 writes
 hd1:0: 224 reads, 0 writes
@@ -1377,7 +702,7 @@ Kernel command line: -q -f put mmap-write run mmap-write
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  209,510,400 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 107 sector (53 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1395,7 +720,7 @@ Executing 'mmap-write':
 mmap-write: exit(1)
 Execution of 'mmap-write' complete.
 Timer: 86 ticks
-Thread: 34 idle ticks, 47 kernel ticks, 5 user ticks
+Thread: 31 idle ticks, 48 kernel ticks, 7 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 118 reads, 256 writes
 hd1:0: 107 reads, 0 writes
@@ -1410,11 +735,11 @@ Powering off...
 DETAILS OF tests/vm/mmap-exit FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1438,12 +763,12 @@ Putting 'child-mm-wrt' into the file system...
 Executing 'mmap-exit':
 (mmap-exit) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 81 ticks
-Thread: 31 idle ticks, 48 kernel ticks, 2 user ticks
+Timer: 88 ticks
+Thread: 34 idle ticks, 53 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 108 reads, 458 writes
 hd1:0: 210 reads, 0 writes
@@ -1481,8 +806,8 @@ Executing 'mmap-clean':
 (mmap-clean) write "sample.txt": FAILED
 mmap-clean: exit(1)
 Execution of 'mmap-clean' complete.
-Timer: 79 ticks
-Thread: 32 idle ticks, 46 kernel ticks, 2 user ticks
+Timer: 84 ticks
+Thread: 31 idle ticks, 50 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 117 reads, 262 writes
 hd1:0: 112 reads, 0 writes
@@ -1519,7 +844,7 @@ Kernel command line: -q -f put mmap-close put sample.txt run mmap-close
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 109 sector (54 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1535,7 +860,7 @@ Executing 'mmap-close':
 mmap-close: exit(-1)
 Execution of 'mmap-close' complete.
 Timer: 84 ticks
-Thread: 35 idle ticks, 47 kernel ticks, 2 user ticks
+Thread: 34 idle ticks, 47 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 120 reads, 256 writes
 hd1:0: 109 reads, 0 writes
@@ -1550,7 +875,7 @@ Powering off...
 DETAILS OF tests/vm/mmap-remove FAILURE:
 
 Kernel panic in run: PANIC at ../../devices/disk.c:411 in select_sector(): assertion `sec_no < d->capacity' failed.
-Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222272 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a
+Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222396 0x8004221dc8 0x8004221c7a 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x0000008004214556: select_sector (devices/disk.c:412)
@@ -1558,9 +883,9 @@ Translation of call stack:
 0x0000008004220613: inode_read_at (filesys/inode.c:205)
 0x000000800421f614: file_read (filesys/file.c:71)
 0x000000800421c7f5: lazy_load_segment (userprog/process.c:689)
-0x0000008004222272: uninit_initialize (vm/uninit.c:55 (discriminator 4))
-0x0000008004221ca4: vm_do_claim_page (vm/vm.c:270)
-0x0000008004221b56: vm_try_handle_fault (vm/vm.c:234)
+0x0000008004222396: uninit_initialize (vm/uninit.c:55 (discriminator 4))
+0x0000008004221dc8: vm_do_claim_page (vm/vm.c:294)
+0x0000008004221c7a: vm_try_handle_fault (vm/vm.c:258)
 0x000000800421d290: page_fault (userprog/exception.c:145)
 0x00000080042092e1: intr_handler (threads/interrupt.c:352)
 0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
@@ -1581,7 +906,7 @@ Kernel command line: -q -f put mmap-remove put sample.txt run mmap-remove
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 110 sector (55 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1598,7 +923,7 @@ Executing 'mmap-remove':
 (mmap-remove) try to open "sample.txt"
 (mmap-remove) create "another"
 Kernel PANIC at ../../devices/disk.c:411 in select_sector(): assertion `sec_no < d->capacity' failed.
-Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222272 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a 0Interrupt 0x0d (#GP General Protection Exception) at rip=80042154b7
+Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222396 0x8004221dc8 0x8004221c7a 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a 0Interrupt 0x0d (#GP General Protection Exception) at rip=80042154b7
  cr2=0000000010000000 error=               0
 rax 0000800421aa7800 rbx 0000000010000000 rcx 00000080040b8000 rdx 00000000000003d4
 rsp 0000008004247c10 rbp 0000008004247c20 rsi 000000000000a40f rdi 0000000000000000
@@ -1607,8 +932,8 @@ r11 0000000000000202 r12 0000008004a29000 r13 0000000000000000 r14 00008004247f1
 r15 0000800420aaa800 rflags 00000006
 es: 0010 ds: 0010 cs: 0008 ss: 0010
 Kernel PANIC recursion at ../../userprog/exception.c:97 in kill().
-Timer: 84 ticks
-Thread: 34 idle ticks, 45 kernel ticks, 5 user ticks
+Timer: 86 ticks
+Thread: 37 idle ticks, 45 kernel ticks, 4 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 165 reads, 351 writes
 hd1:0: 110 reads, 0 writes
@@ -1629,7 +954,7 @@ Kernel command line: -q -f put mmap-off put large.txt run mmap-off
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  153,804,800 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 7,933 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1645,8 +970,8 @@ Executing 'mmap-off':
 (mmap-off) try to mmap with offset 0x1000: FAILED
 mmap-off: exit(1)
 Execution of 'mmap-off' complete.
-Timer: 266 ticks
-Thread: 124 idle ticks, 139 kernel ticks, 3 user ticks
+Timer: 273 ticks
+Thread: 118 idle ticks, 153 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 112 reads, 15904 writes
 hd1:0: 7933 reads, 0 writes
@@ -1661,11 +986,11 @@ Powering off...
 DETAILS OF tests/vm/swap-fork FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1677,7 +1002,7 @@ Kernel command line: -q -f put swap-fork put child-swap run swap-fork
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x27e0000 (Usable: 39,808 kB)
-Calibrating timer...  155,443,200 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 4,119 sector (2 MB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1689,12 +1014,12 @@ Putting 'child-swap' into the file system...
 Executing 'swap-fork':
 (swap-fork) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 193 ticks
-Thread: 86 idle ticks, 104 kernel ticks, 3 user ticks
+Timer: 186 ticks
+Thread: 74 idle ticks, 109 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 114 reads, 8276 writes
 hd1:0: 4119 reads, 0 writes
@@ -1703,81 +1028,14 @@ Console: 1296 characters output
 Key
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-DETAILS OF tests/vm/mmap-inherit FAILURE:
-
-Test output failed to match any acceptable form.
-
-Acceptable output:
-  (mmap-inherit) begin
-  (mmap-inherit) open "sample.txt"
-  (mmap-inherit) mmap "sample.txt"
-  (mmap-inherit) exec "child-inherit"
-  (child-inherit) begin
-  child-inherit: exit(-1)
-  (mmap-inherit) checking that mmap'd file still has same data
-  (mmap-inherit) end
-  mmap-inherit: exit(0)
-Differences in `diff -u' format:
-  (mmap-inherit) begin
-  (mmap-inherit) open "sample.txt"
-  (mmap-inherit) mmap "sample.txt"
-- (mmap-inherit) exec "child-inherit"
-- (child-inherit) begin
-  child-inherit: exit(-1)
-  (mmap-inherit) checking that mmap'd file still has same data
-  (mmap-inherit) end
-  mmap-inherit: exit(0)
-
-(User fault messages are excluded for matching purposes.)
-
-OUTPUT FROM tests/vm/mmap-inherit:
-
-Kernel command line: -q -f put mmap-inherit put sample.txt put child-inherit run mmap-inherit
-0 ~ 9fc00 1
-100000 ~ 13e0000 1
-Pintos booting with: 
-	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
-	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
-hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
-hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
-hd1:0: detected 215 sector (107 kB) disk, model "QEMU HARDDISK", serial "QM00003"
-hd1:1: detected 8,064 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00004"
-Formatting file system...done.
-Boot complete.
-Putting 'mmap-inherit' into the file system...
-Putting 'sample.txt' into the file system...
-Putting 'child-inherit' into the file system...
-Executing 'mmap-inherit':
-(mmap-inherit) begin
-(mmap-inherit) open "sample.txt"
-(mmap-inherit) mmap "sample.txt"
-child-inherit: exit(-1)
-(mmap-inherit) checking that mmap'd file still has same data
-(mmap-inherit) end
-mmap-inherit: exit(0)
-Execution of 'mmap-inherit' complete.
-Timer: 82 ticks
-Thread: 36 idle ticks, 43 kernel ticks, 3 user ticks
-hd0:0: 0 reads, 0 writes
-hd0:1: 153 reads, 478 writes
-hd1:0: 215 reads, 0 writes
-hd1:1: 0 reads, 0 writes
-Console: 1250 characters output
-Keyboard: 0 keys pressed
-Exception: 1 page faults
-Powering off...
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
 DETAILS OF tests/filesys/base/syn-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1805,12 +1063,12 @@ Executing 'syn-read':
 (syn-read) write "data"
 (syn-read) close "data"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 87 ticks
-Thread: 36 idle ticks, 48 kernel ticks, 3 user ticks
+Timer: 86 ticks
+Thread: 38 idle ticks, 46 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 136 reads, 504 writes
 hd1:0: 225 reads, 0 writes
@@ -1822,11 +1080,11 @@ Key
 DETAILS OF tests/filesys/base/syn-write FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1851,12 +1109,12 @@ Executing 'syn-write':
 (syn-write) begin
 (syn-write) create "stuff"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 87 ticks
-Thread: 34 idle ticks, 51 kernel ticks, 2 user ticks
+Timer: 85 ticks
+Thread: 35 idle ticks, 49 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 131 reads, 512 writes
 hd1:0: 226 reads, 0 writes
@@ -1868,11 +1126,11 @@ Key
 DETAILS OF tests/vm/cow/cow-simple FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
+0x000000800422204f: supplemental_page_table_copy (vm/vm.c:345)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1896,12 +1154,12 @@ Executing 'cow-simple':
 (cow-simple) begin
 (cow-simple) check data consistency
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x800422204f 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 183 ticks
-Thread: 90 idle ticks, 91 kernel ticks, 2 user ticks
+Timer: 176 ticks
+Thread: 74 idle ticks, 99 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 8066 writes
 hd1:0: 4019 reads, 0 writes
