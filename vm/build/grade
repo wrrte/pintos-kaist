@@ -275,24 +275,24 @@ Functionality of copy-on-write (tests/vm/cow/Rubric):
 
 DETAILS OF tests/userprog/fork-once FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (fork-once) begin
+  (fork-once) child run
+  child: exit(81)
+  (fork-once) Parent: child exit status is 81
+  (fork-once) end
+  fork-once: exit(0)
+Differences in `diff -u' format:
+  (fork-once) begin
+- (fork-once) child run
+- child: exit(81)
+- (fork-once) Parent: child exit status is 81
++ child: exit(-1)
++ (fork-once) Parent: child exit status is -1
+  (fork-once) end
+  fork-once: exit(0)
 
 OUTPUT FROM tests/userprog/fork-once:
 
@@ -302,7 +302,7 @@ Kernel command line: -q -f put fork-once run fork-once
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  104,755,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 103 sector (51 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -313,47 +313,67 @@ Putting 'fork-once' into the file system...
 Executing 'fork-once':
 (fork-once) begin
 child: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=0000000000403377 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 85 ticks
-Thread: 36 idle ticks, 45 kernel ticks, 4 user ticks
+(fork-once) Parent: child exit status is -1
+(fork-once) end
+fork-once: exit(0)
+Execution of 'fork-once' complete.
+Timer: 79 ticks
+Thread: 33 idle ticks, 43 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 80 reads, 234 writes
 hd1:0: 103 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1817 characters output
-Key
+Console: 1007 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/fork-multiple FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (fork-multiple) begin
+  (fork-multiple) child run
+  child: exit(4)
+  (fork-multiple) Parent: child exit status is 4
+  (fork-multiple) child run
+  child: exit(5)
+  (fork-multiple) Parent: child exit status is 5
+  (fork-multiple) child run
+  child: exit(6)
+  (fork-multiple) Parent: child exit status is 6
+  (fork-multiple) child run
+  child: exit(7)
+  (fork-multiple) Parent: child exit status is 7
+  (fork-multiple) end
+  fork-multiple: exit(0)
+Differences in `diff -u' format:
+  (fork-multiple) begin
+- (fork-multiple) child run
+- child: exit(4)
+- (fork-multiple) Parent: child exit status is 4
+- (fork-multiple) child run
+- child: exit(5)
+- (fork-multiple) Parent: child exit status is 5
+- (fork-multiple) child run
+- child: exit(6)
+- (fork-multiple) Parent: child exit status is 6
+- (fork-multiple) child run
+- child: exit(7)
+- (fork-multiple) Parent: child exit status is 7
++ child: exit(-1)
++ (fork-multiple) Parent: child exit status is -1
++ child: exit(-1)
++ (fork-multiple) Parent: child exit status is -1
++ child: exit(-1)
++ (fork-multiple) Parent: child exit status is -1
++ child: exit(-1)
++ (fork-multiple) Parent: child exit status is -1
+  (fork-multiple) end
+  fork-multiple: exit(0)
 
 OUTPUT FROM tests/userprog/fork-multiple:
 
@@ -374,35 +394,37 @@ Putting 'fork-multiple' into the file system...
 Executing 'fork-multiple':
 (fork-multiple) begin
 child: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=00000000004033d2 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 85 ticks
-Thread: 34 idle ticks, 47 kernel ticks, 4 user ticks
+(fork-multiple) Parent: child exit status is -1
+child: exit(-1)
+(fork-multiple) Parent: child exit status is -1
+child: exit(-1)
+(fork-multiple) Parent: child exit status is -1
+child: exit(-1)
+(fork-multiple) Parent: child exit status is -1
+(fork-multiple) end
+fork-multiple: exit(0)
+Execution of 'fork-multiple' complete.
+Timer: 84 ticks
+Thread: 32 idle ticks, 47 kernel ticks, 5 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 87 reads, 236 writes
 hd1:0: 104 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1837 characters output
-Key
+Console: 1235 characters output
+Keyboard: 0 keys pressed
+Exception: 4 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/fork-close FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -427,12 +449,12 @@ Executing 'fork-close':
 (fork-close) begin
 (fork-close) open "sample.txt"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 82 ticks
-Thread: 33 idle ticks, 47 kernel ticks, 2 user ticks
+Timer: 84 ticks
+Thread: 38 idle ticks, 44 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 112 reads, 258 writes
 hd1:0: 110 reads, 0 writes
@@ -444,11 +466,11 @@ Key
 DETAILS OF tests/userprog/fork-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -473,12 +495,12 @@ Executing 'fork-read':
 (fork-read) begin
 (fork-read) open "sample.txt"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 84 ticks
-Thread: 35 idle ticks, 47 kernel ticks, 2 user ticks
+Timer: 83 ticks
+Thread: 32 idle ticks, 49 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 115 reads, 260 writes
 hd1:0: 111 reads, 0 writes
@@ -490,11 +512,11 @@ Key
 DETAILS OF tests/userprog/exec-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -506,7 +528,7 @@ Kernel command line: -q -f put exec-read put sample.txt put child-read run exec-
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  104,755,200 loops/s.
+Calibrating timer...  157,081,600 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 229 sector (114 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -521,12 +543,12 @@ Executing 'exec-read':
 (exec-read) open "sample.txt"
 (exec-read) read "sample.txt" first 20 bytes
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
 Timer: 87 ticks
-Thread: 41 idle ticks, 45 kernel ticks, 1 user ticks
+Thread: 38 idle ticks, 46 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 143 reads, 506 writes
 hd1:0: 229 reads, 0 writes
@@ -537,24 +559,24 @@ Key
 
 DETAILS OF tests/userprog/wait-simple FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ff
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (wait-simple) begin
+  (child-simple) run
+  child-simple: exit(81)
+  (wait-simple) wait(exec()) = 81
+  (wait-simple) end
+  wait-simple: exit(0)
+Differences in `diff -u' format:
+  (wait-simple) begin
+- (child-simple) run
+- child-simple: exit(81)
+- (wait-simple) wait(exec()) = 81
++ child-simple: exit(-1)
++ (wait-simple) wait(exec()) = -1
+  (wait-simple) end
+  wait-simple: exit(0)
 
 OUTPUT FROM tests/userprog/wait-simple:
 
@@ -576,58 +598,45 @@ Putting 'child-simple' into the file system...
 Executing 'wait-simple':
 (wait-simple) begin
 child-simple: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040335c error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ff(wait-simple) wait(exec()) = -1
+(wait-simple) wait(exec()) = -1
 (wait-simple) end
 wait-simple: exit(0)
-child-simple: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=800421df66
- cr2=000000004747ff70 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 00000080040b8000 rdx 0000000000000000
-rsp 00000080042519e0 rbp 0000008004251a00 rsi 000000000000800f rdi 0000000000000000
-rip 000000800421df66 r8 0000008004251958  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000286
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC recursion at ../../userprog/exception.c:97 in kill().
-Timer: 88 ticks
-Thread: 35 idle ticks, 46 kernel ticks, 7 user ticks
+Execution of 'wait-simple' complete.
+Timer: 87 ticks
+Thread: 37 idle ticks, 49 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 446 writes
 hd1:0: 204 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2486 characters output
-Key
+Console: 1084 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/wait-twice FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (wait-twice) begin
+  (child-simple) run
+  child-simple: exit(81)
+  (wait-twice) wait(exec()) = 81
+  (wait-twice) wait(exec()) = -1
+  (wait-twice) end
+  wait-twice: exit(0)
+Differences in `diff -u' format:
+  (wait-twice) begin
+- (child-simple) run
+- child-simple: exit(81)
+- (wait-twice) wait(exec()) = 81
++ child-simple: exit(-1)
++ (wait-twice) wait(exec()) = -1
+  (wait-twice) wait(exec()) = -1
+  (wait-twice) end
+  wait-twice: exit(0)
 
 OUTPUT FROM tests/userprog/wait-twice:
 
@@ -649,47 +658,86 @@ Putting 'child-simple' into the file system...
 Executing 'wait-twice':
 (wait-twice) begin
 child-simple: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040338a error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-simple: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 82 ticks
-Thread: 33 idle ticks, 47 kernel ticks, 2 user ticks
+(wait-twice) wait(exec()) = -1
+(wait-twice) wait(exec()) = -1
+(wait-twice) end
+wait-twice: exit(0)
+Execution of 'wait-twice' complete.
+Timer: 88 ticks
+Thread: 35 idle ticks, 50 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 446 writes
 hd1:0: 204 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1902 characters output
-Key
+Console: 1106 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/fork-recursive FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (fork-recursive) begin
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  (fork-recursive) child run
+  child: exit(10)
+  (fork-recursive) Parent: child exit status is 10
+  child: exit(10)
+  (fork-recursive) Parent: child exit status is 10
+  child: exit(9)
+  (fork-recursive) Parent: child exit status is 9
+  child: exit(8)
+  (fork-recursive) Parent: child exit status is 8
+  child: exit(7)
+  (fork-recursive) Parent: child exit status is 7
+  child: exit(6)
+  (fork-recursive) Parent: child exit status is 6
+  child: exit(5)
+  (fork-recursive) Parent: child exit status is 5
+  child: exit(4)
+  (fork-recursive) Parent: child exit status is 4
+  (fork-recursive) end
+  fork-recursive: exit(0)
+Differences in `diff -u' format:
+  (fork-recursive) begin
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- (fork-recursive) child run
+- child: exit(10)
+- (fork-recursive) Parent: child exit status is 10
+- child: exit(10)
+- (fork-recursive) Parent: child exit status is 10
+- child: exit(9)
+- (fork-recursive) Parent: child exit status is 9
+- child: exit(8)
+- (fork-recursive) Parent: child exit status is 8
+- child: exit(7)
+- (fork-recursive) Parent: child exit status is 7
+- child: exit(6)
+- (fork-recursive) Parent: child exit status is 6
+- child: exit(5)
+- (fork-recursive) Parent: child exit status is 5
+- child: exit(4)
+- (fork-recursive) Parent: child exit status is 4
++ child: exit(-1)
++ (fork-recursive) Parent: child exit status is -1
+  (fork-recursive) end
+  fork-recursive: exit(0)
 
 OUTPUT FROM tests/userprog/fork-recursive:
 
@@ -710,47 +758,26 @@ Putting 'fork-recursive' into the file system...
 Executing 'fork-recursive':
 (fork-recursive) begin
 child: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=0000000000403400 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 84 ticks
-Thread: 32 idle ticks, 48 kernel ticks, 4 user ticks
+(fork-recursive) Parent: child exit status is -1
+(fork-recursive) end
+fork-recursive: exit(0)
+Execution of 'fork-recursive' complete.
+Timer: 87 ticks
+Thread: 30 idle ticks, 51 kernel ticks, 6 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 87 reads, 236 writes
 hd1:0: 104 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1842 characters output
-Key
+Console: 1052 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/multi-recurse FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ff
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
+run: fork() returned -1: FAILED
 
 OUTPUT FROM tests/userprog/multi-recurse:
 
@@ -760,7 +787,7 @@ Kernel command line: -q -f put multi-recurse run 'multi-recurse 15'
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  104,755,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 113 sector (56 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -772,47 +799,25 @@ Executing 'multi-recurse 15':
 (multi-recurse) begin 15
 (multi-recurse) exec("multi-recurse 14")
 multi-recurse: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=0000000000403a9c error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffmulti-recurse: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 83 ticks
-Thread: 31 idle ticks, 46 kernel ticks, 6 user ticks
+(multi-recurse) fork() returned -1: FAILED
+multi-recurse: exit(1)
+Execution of 'multi-recurse' complete.
+Timer: 81 ticks
+Thread: 34 idle ticks, 44 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 87 reads, 254 writes
 hd1:0: 113 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1905 characters output
-Key
+Console: 1078 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/rox-child FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+run: fork() returned -1: FAILED
 
 OUTPUT FROM tests/userprog/rox-child:
 
@@ -838,47 +843,25 @@ Executing 'rox-child':
 (rox-child) write "child-rox"
 (rox-child) exec "child-rox 1"
 child-rox: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040356e error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004252d60 rbp 0000008004252d70 rsi 0000000000000000 rdi 0000008004244328
-rip 0000008004218ce2 r8 0000008004252db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-rox: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 88 ticks
-Thread: 35 idle ticks, 48 kernel ticks, 5 user ticks
+(rox-child) fork() returned -1: FAILED
+rox-child: exit(1)
+Execution of 'rox-child' complete.
+Timer: 84 ticks
+Thread: 34 idle ticks, 47 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 114 reads, 479 writes
 hd1:0: 220 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2004 characters output
-Key
+Console: 1169 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/rox-multichild FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+run: fork() returned -1: FAILED
 
 OUTPUT FROM tests/userprog/rox-multichild:
 
@@ -904,47 +887,50 @@ Executing 'rox-multichild':
 (rox-multichild) write "child-rox"
 (rox-multichild) exec "child-rox 5"
 child-rox: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040356e error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004252d60 rbp 0000008004252d70 rsi 0000000000000000 rdi 0000008004244328
-rip 0000008004218ce2 r8 0000008004252db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-rox: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 88 ticks
-Thread: 37 idle ticks, 48 kernel ticks, 3 user ticks
+(rox-multichild) fork() returned -1: FAILED
+rox-multichild: exit(1)
+Execution of 'rox-multichild' complete.
+Timer: 89 ticks
+Thread: 37 idle ticks, 50 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 114 reads, 479 writes
 hd1:0: 220 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2049 characters output
-Key
+Console: 1229 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/multi-child-fd FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (multi-child-fd) begin
+  (multi-child-fd) open "sample.txt"
+  (child-close) begin
+  (child-close) verified contents of "sample.txt"
+  (child-close) end
+  child-close: exit(0)
+  (multi-child-fd) wait(exec()) = 0
+  (multi-child-fd) verified contents of "sample.txt"
+  (multi-child-fd) end
+  multi-child-fd: exit(0)
+Differences in `diff -u' format:
+  (multi-child-fd) begin
+  (multi-child-fd) open "sample.txt"
+- (child-close) begin
+- (child-close) verified contents of "sample.txt"
+- (child-close) end
+- child-close: exit(0)
+- (multi-child-fd) wait(exec()) = 0
++ child-close: exit(-1)
++ (multi-child-fd) wait(exec()) = -1
+  (multi-child-fd) verified contents of "sample.txt"
+  (multi-child-fd) end
+  multi-child-fd: exit(0)
 
 OUTPUT FROM tests/userprog/multi-child-fd:
 
@@ -968,44 +954,32 @@ Executing 'multi-child-fd':
 (multi-child-fd) begin
 (multi-child-fd) open "sample.txt"
 child-close: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040340c error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004252d60 rbp 0000008004252d70 rsi 0000000000000000 rdi 0000008004244328
-rip 0000008004218ce2 r8 0000008004252db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-close: exit(-1)
 (multi-child-fd) wait(exec()) = -1
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000004747fef0 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004252900 rbp 0000008004252910 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004252958  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC recursion at ../../userprog/exception.c:97 in kill().
-Timer: 92 ticks
-Thread: 34 idle ticks, 52 kernel ticks, 6 user ticks
+(multi-child-fd) verified contents of "sample.txt"
+(multi-child-fd) end
+multi-child-fd: exit(0)
+Execution of 'multi-child-fd' complete.
+Timer: 84 ticks
+Thread: 34 idle ticks, 47 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
-hd0:1: 148 reads, 488 writes
+hd0:1: 149 reads, 488 writes
 hd1:0: 220 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2556 characters output
-Key
+Console: 1254 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/userprog/fork-boundary FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1028,7 +1002,7 @@ Putting 'fork-boundary' into the file system...
 Executing 'fork-boundary':
 (fork-boundary) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
@@ -1045,11 +1019,11 @@ Key
 DETAILS OF tests/userprog/exec-boundary FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1073,12 +1047,12 @@ Putting 'child-simple' into the file system...
 Executing 'exec-boundary':
 (exec-boundary) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 87 ticks
-Thread: 36 idle ticks, 49 kernel ticks, 2 user ticks
+Timer: 86 ticks
+Thread: 36 idle ticks, 49 kernel ticks, 1 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 452 writes
 hd1:0: 207 reads, 0 writes
@@ -1089,24 +1063,38 @@ Key
 
 DETAILS OF tests/userprog/wait-killed FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (wait-killed) begin
+  (child-bad) begin
+  child-bad: exit(-1)
+  (wait-killed) wait(exec()) = -1
+  (wait-killed) end
+  wait-killed: exit(0)
+Differences in `diff -u' format:
+  (wait-killed) begin
+- (child-bad) begin
+  child-bad: exit(-1)
+  (wait-killed) wait(exec()) = -1
+  (wait-killed) end
+  wait-killed: exit(0)
+Acceptable output:
+  (wait-killed) begin
+  (child-bad) begin
+  load: pintos: open failed
+  child-bad: exit(-1)
+  (wait-killed) wait(exec()) = -1
+  (wait-killed) end
+  wait-killed: exit(0)
+Differences in `diff -u' format:
+  (wait-killed) begin
+- (child-bad) begin
+- load: pintos: open failed
+  child-bad: exit(-1)
+  (wait-killed) wait(exec()) = -1
+  (wait-killed) end
+  wait-killed: exit(0)
 
 OUTPUT FROM tests/userprog/wait-killed:
 
@@ -1116,7 +1104,7 @@ Kernel command line: -q -f put wait-killed put child-bad run wait-killed
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  91,648,000 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 205 sector (102 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1128,47 +1116,26 @@ Putting 'child-bad' into the file system...
 Executing 'wait-killed':
 (wait-killed) begin
 child-bad: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=000000000040335c error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-bad: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 82 ticks
-Thread: 34 idle ticks, 46 kernel ticks, 2 user ticks
+(wait-killed) wait(exec()) = -1
+(wait-killed) end
+wait-killed: exit(0)
+Execution of 'wait-killed' complete.
+Timer: 85 ticks
+Thread: 34 idle ticks, 48 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 448 writes
 hd1:0: 205 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1895 characters output
-Key
+Console: 1074 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/vm/page-parallel FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+run: wait for child 0: FAILED
 
 OUTPUT FROM tests/vm/page-parallel:
 
@@ -1190,35 +1157,34 @@ Putting 'child-linear' into the file system...
 Executing 'page-parallel':
 (page-parallel) begin
 child-linear: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=00000000004033dd error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004251d60 rbp 0000008004251d70 rsi 0000000000000000 rdi 0000008004244308
-rip 0000008004218ce2 r8 0000008004251db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-linear: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 85 ticks
-Thread: 37 idle ticks, 45 kernel ticks, 3 user ticks
+child-linear: exit(-1)
+child-linear: exit(-1)
+child-linear: exit(-1)
+(page-parallel) wait for child 0
+(page-parallel) wait for child 0: FAILED
+page-parallel: exit(1)
+Execution of 'page-parallel' complete.
+Timer: 84 ticks
+Thread: 33 idle ticks, 48 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 107 reads, 456 writes
 hd1:0: 209 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1917 characters output
-Key
+Console: 1191 characters output
+Keyboard: 0 keys pressed
+Exception: 4 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/vm/page-merge-seq FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1244,12 +1210,12 @@ Executing 'page-merge-seq':
 (page-merge-seq) init
 (page-merge-seq) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 167 ticks
-Thread: 38 idle ticks, 50 kernel ticks, 79 user ticks
+Timer: 162 ticks
+Thread: 39 idle ticks, 47 kernel ticks, 76 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 734 writes
 hd1:0: 216 reads, 0 writes
@@ -1261,11 +1227,11 @@ Key
 DETAILS OF tests/vm/page-merge-par FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1291,12 +1257,12 @@ Executing 'page-merge-par':
 (page-merge-par) init
 (page-merge-par) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
 Timer: 220 ticks
-Thread: 42 idle ticks, 49 kernel ticks, 129 user ticks
+Thread: 41 idle ticks, 48 kernel ticks, 131 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 998 writes
 hd1:0: 218 reads, 0 writes
@@ -1308,11 +1274,11 @@ Key
 DETAILS OF tests/vm/page-merge-mm FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1338,12 +1304,12 @@ Executing 'page-merge-mm':
 (page-merge-mm) init
 (page-merge-mm) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 219 ticks
-Thread: 40 idle ticks, 47 kernel ticks, 132 user ticks
+Timer: 242 ticks
+Thread: 40 idle ticks, 51 kernel ticks, 151 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 140 reads, 1010 writes
 hd1:0: 224 reads, 0 writes
@@ -1355,11 +1321,11 @@ Key
 DETAILS OF tests/vm/page-merge-stk FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1385,12 +1351,12 @@ Executing 'page-merge-stk':
 (page-merge-stk) init
 (page-merge-stk) sort chunk 0
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 226 ticks
-Thread: 41 idle ticks, 51 kernel ticks, 134 user ticks
+Timer: 210 ticks
+Thread: 37 idle ticks, 44 kernel ticks, 129 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 139 reads, 1010 writes
 hd1:0: 224 reads, 0 writes
@@ -1411,7 +1377,7 @@ Kernel command line: -q -f put mmap-write run mmap-write
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  130,867,200 loops/s.
+Calibrating timer...  209,510,400 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 107 sector (53 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1429,7 +1395,7 @@ Executing 'mmap-write':
 mmap-write: exit(1)
 Execution of 'mmap-write' complete.
 Timer: 86 ticks
-Thread: 31 idle ticks, 50 kernel ticks, 5 user ticks
+Thread: 34 idle ticks, 47 kernel ticks, 5 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 118 reads, 256 writes
 hd1:0: 107 reads, 0 writes
@@ -1444,11 +1410,11 @@ Powering off...
 DETAILS OF tests/vm/mmap-exit FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1472,12 +1438,12 @@ Putting 'child-mm-wrt' into the file system...
 Executing 'mmap-exit':
 (mmap-exit) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 86 ticks
-Thread: 34 idle ticks, 50 kernel ticks, 2 user ticks
+Timer: 81 ticks
+Thread: 31 idle ticks, 48 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 108 reads, 458 writes
 hd1:0: 210 reads, 0 writes
@@ -1515,8 +1481,8 @@ Executing 'mmap-clean':
 (mmap-clean) write "sample.txt": FAILED
 mmap-clean: exit(1)
 Execution of 'mmap-clean' complete.
-Timer: 84 ticks
-Thread: 32 idle ticks, 49 kernel ticks, 3 user ticks
+Timer: 79 ticks
+Thread: 32 idle ticks, 46 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 117 reads, 262 writes
 hd1:0: 112 reads, 0 writes
@@ -1553,7 +1519,7 @@ Kernel command line: -q -f put mmap-close put sample.txt run mmap-close
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  104,755,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 109 sector (54 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1568,8 +1534,8 @@ Executing 'mmap-close':
 (mmap-close) mmap "sample.txt"
 mmap-close: exit(-1)
 Execution of 'mmap-close' complete.
-Timer: 83 ticks
-Thread: 33 idle ticks, 47 kernel ticks, 3 user ticks
+Timer: 84 ticks
+Thread: 35 idle ticks, 47 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 120 reads, 256 writes
 hd1:0: 109 reads, 0 writes
@@ -1584,7 +1550,7 @@ Powering off...
 DETAILS OF tests/vm/mmap-remove FAILURE:
 
 Kernel panic in run: PANIC at ../../devices/disk.c:411 in select_sector(): assertion `sec_no < d->capacity' failed.
-Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x80042221d2 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a
+Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222272 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x0000008004214556: select_sector (devices/disk.c:412)
@@ -1592,7 +1558,7 @@ Translation of call stack:
 0x0000008004220613: inode_read_at (filesys/inode.c:205)
 0x000000800421f614: file_read (filesys/file.c:71)
 0x000000800421c7f5: lazy_load_segment (userprog/process.c:689)
-0x00000080042221d2: uninit_initialize (vm/uninit.c:55 (discriminator 4))
+0x0000008004222272: uninit_initialize (vm/uninit.c:55 (discriminator 4))
 0x0000008004221ca4: vm_do_claim_page (vm/vm.c:270)
 0x0000008004221b56: vm_try_handle_fault (vm/vm.c:234)
 0x000000800421d290: page_fault (userprog/exception.c:145)
@@ -1615,7 +1581,7 @@ Kernel command line: -q -f put mmap-remove put sample.txt run mmap-remove
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  104,755,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 110 sector (55 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1632,7 +1598,7 @@ Executing 'mmap-remove':
 (mmap-remove) try to open "sample.txt"
 (mmap-remove) create "another"
 Kernel PANIC at ../../devices/disk.c:411 in select_sector(): assertion `sec_no < d->capacity' failed.
-Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x80042221d2 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a 0Interrupt 0x0d (#GP General Protection Exception) at rip=80042154b7
+Call stack: 0x800421847d 0x8004214556 0x8004213b0a 0x8004220613 0x800421f614 0x800421c7f5 0x8004222272 0x8004221ca4 0x8004221b56 0x800421d290 0x80042092e1 0x80042096ff 0x4002f9 0x400e51 0x400e9a 0Interrupt 0x0d (#GP General Protection Exception) at rip=80042154b7
  cr2=0000000010000000 error=               0
 rax 0000800421aa7800 rbx 0000000010000000 rcx 00000080040b8000 rdx 00000000000003d4
 rsp 0000008004247c10 rbp 0000008004247c20 rsi 000000000000a40f rdi 0000000000000000
@@ -1641,8 +1607,8 @@ r11 0000000000000202 r12 0000008004a29000 r13 0000000000000000 r14 00008004247f1
 r15 0000800420aaa800 rflags 00000006
 es: 0010 ds: 0010 cs: 0008 ss: 0010
 Kernel PANIC recursion at ../../userprog/exception.c:97 in kill().
-Timer: 88 ticks
-Thread: 38 idle ticks, 45 kernel ticks, 5 user ticks
+Timer: 84 ticks
+Thread: 34 idle ticks, 45 kernel ticks, 5 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 165 reads, 351 writes
 hd1:0: 110 reads, 0 writes
@@ -1663,7 +1629,7 @@ Kernel command line: -q -f put mmap-off put large.txt run mmap-off
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  153,804,800 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 7,933 sector (3 MB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1679,8 +1645,8 @@ Executing 'mmap-off':
 (mmap-off) try to mmap with offset 0x1000: FAILED
 mmap-off: exit(1)
 Execution of 'mmap-off' complete.
-Timer: 275 ticks
-Thread: 120 idle ticks, 152 kernel ticks, 3 user ticks
+Timer: 266 ticks
+Thread: 124 idle ticks, 139 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 112 reads, 15904 writes
 hd1:0: 7933 reads, 0 writes
@@ -1695,11 +1661,11 @@ Powering off...
 DETAILS OF tests/vm/swap-fork FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1711,7 +1677,7 @@ Kernel command line: -q -f put swap-fork put child-swap run swap-fork
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x27e0000 (Usable: 39,808 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  155,443,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 4,119 sector (2 MB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1723,12 +1689,12 @@ Putting 'child-swap' into the file system...
 Executing 'swap-fork':
 (swap-fork) begin
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 191 ticks
-Thread: 79 idle ticks, 109 kernel ticks, 3 user ticks
+Timer: 193 ticks
+Thread: 86 idle ticks, 104 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 114 reads, 8276 writes
 hd1:0: 4119 reads, 0 writes
@@ -1739,24 +1705,30 @@ Key
 
 DETAILS OF tests/vm/mmap-inherit FAILURE:
 
-Kernel panic in run: PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffc
-Translation of call stack:
-0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
-0x000000800421d199: kill (userprog/exception.c:103)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x00000080042096ff: intr_entry (threads/intr-stubs.o:?)
-0x000000800422255c: anon_destroy (vm/anon.c:100)
-0x000000800421b6a8: hash_kill (lib/kernel/hash.c:418)
-0x000000800421aa4b: hash_clear (lib/kernel/hash.c:60)
-0x0000008004222094: supplemental_page_table_kill (vm/vm.c:352)
-0x000000800421c209: process_cleanup (userprog/process.c:324)
-0x000000800421c1a3: process_exit (userprog/process.c:307)
-0x0000008004207201: thread_exit (threads/thread.c:328)
-0x000000800421d892: fork (userprog/syscall.c:165)
-0x000000800421d2c3: page_fault (userprog/exception.c:146)
-0x00000080042092e1: intr_handler (threads/interrupt.c:352)
-0x0000080042096ffc: (unknown)
+Test output failed to match any acceptable form.
+
+Acceptable output:
+  (mmap-inherit) begin
+  (mmap-inherit) open "sample.txt"
+  (mmap-inherit) mmap "sample.txt"
+  (mmap-inherit) exec "child-inherit"
+  (child-inherit) begin
+  child-inherit: exit(-1)
+  (mmap-inherit) checking that mmap'd file still has same data
+  (mmap-inherit) end
+  mmap-inherit: exit(0)
+Differences in `diff -u' format:
+  (mmap-inherit) begin
+  (mmap-inherit) open "sample.txt"
+  (mmap-inherit) mmap "sample.txt"
+- (mmap-inherit) exec "child-inherit"
+- (child-inherit) begin
+  child-inherit: exit(-1)
+  (mmap-inherit) checking that mmap'd file still has same data
+  (mmap-inherit) end
+  mmap-inherit: exit(0)
+
+(User fault messages are excluded for matching purposes.)
 
 OUTPUT FROM tests/vm/mmap-inherit:
 
@@ -1766,7 +1738,7 @@ Kernel command line: -q -f put mmap-inherit put sample.txt put child-inherit run
 Pintos booting with: 
 	base_mem: 0x0 ~ 0x9fc00 (Usable: 639 kB)
 	ext_mem: 0x100000 ~ 0x13e0000 (Usable: 19,328 kB)
-Calibrating timer...  157,081,600 loops/s.
+Calibrating timer...  104,755,200 loops/s.
 hd0:0: detected 337 sector (168 kB) disk, model "QEMU HARDDISK", serial "QM00001"
 hd0:1: detected 20,160 sector (9 MB) disk, model "QEMU HARDDISK", serial "QM00002"
 hd1:0: detected 215 sector (107 kB) disk, model "QEMU HARDDISK", serial "QM00003"
@@ -1781,35 +1753,31 @@ Executing 'mmap-inherit':
 (mmap-inherit) open "sample.txt"
 (mmap-inherit) mmap "sample.txt"
 child-inherit: exit(-1)
-Interrupt 0x0d (#GP General Protection Exception) at rip=8004218ce2
- cr2=0000000000403556 error=               0
-rax cccccccccccccccc rbx 0000000000000000 rcx 0000000000000000 rdx cccccccccccccccc
-rsp 0000008004253d60 rbp 0000008004253d70 rsi 0000000000000000 rdi 0000008004244388
-rip 0000008004218ce2 r8 0000008004253db8  r9 000000800421b9c6 r10 0000000000000000
-r11 0000000000000000 r12 0000000000000000 r13 0000800422bdf000 r14 00008004247f1000
-r15 0000800420aaa800 rflags 00000202
-es: 0010 ds: 0010 cs: 0008 ss: 0010
-Kernel PANIC at ../../userprog/exception.c:97 in kill(): Kernel bug - unexpected interrupt in kernel
-Call stack: 0x800421847d 0x800421d199 0x80042092e1 0x80042096ff 0x800422255c 0x800421b6a8 0x800421aa4b 0x8004222094 0x800421c209 0x800421c1a3 0x8004207201 0x800421d892 0x800421d2c3 0x80042092e1 0x80042096ffchild-inherit: exit(-1)
-Kernel PANIC recursion at ../../threads/palloc.c:321 in palloc_free_multiple().
-Timer: 89 ticks
-Thread: 32 idle ticks, 53 kernel ticks, 4 user ticks
+(mmap-inherit) checking that mmap'd file still has same data
+(mmap-inherit) end
+mmap-inherit: exit(0)
+Execution of 'mmap-inherit' complete.
+Timer: 82 ticks
+Thread: 36 idle ticks, 43 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 153 reads, 478 writes
 hd1:0: 215 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 2042 characters output
-Key
+Console: 1250 characters output
+Keyboard: 0 keys pressed
+Exception: 1 page faults
+Powering off...
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 DETAILS OF tests/filesys/base/syn-read FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1837,12 +1805,12 @@ Executing 'syn-read':
 (syn-read) write "data"
 (syn-read) close "data"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 88 ticks
-Thread: 37 idle ticks, 49 kernel ticks, 2 user ticks
+Timer: 87 ticks
+Thread: 36 idle ticks, 48 kernel ticks, 3 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 136 reads, 504 writes
 hd1:0: 225 reads, 0 writes
@@ -1854,11 +1822,11 @@ Key
 DETAILS OF tests/filesys/base/syn-write FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1883,12 +1851,12 @@ Executing 'syn-write':
 (syn-write) begin
 (syn-write) create "stuff"
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 84 ticks
-Thread: 37 idle ticks, 46 kernel ticks, 1 user ticks
+Timer: 87 ticks
+Thread: 34 idle ticks, 51 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 131 reads, 512 writes
 hd1:0: 226 reads, 0 writes
@@ -1900,11 +1868,11 @@ Key
 DETAILS OF tests/vm/cow/cow-simple FAILURE:
 
 Kernel panic in run: PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596
 Translation of call stack:
 0x000000800421847d: debug_panic (lib/kernel/debug.c:32)
 0x000000800422148a: vm_alloc_page_with_initializer (vm/vm.c:57)
-0x0000008004221e8b: supplemental_page_table_copy (vm/vm.c:310)
+0x0000008004221f2b: supplemental_page_table_copy (vm/vm.c:321)
 0x000000800421bdbd: __do_fork (userprog/process.c:169)
 0x0000008004207596: kernel_thread (threads/thread.c:465)
 
@@ -1928,15 +1896,15 @@ Executing 'cow-simple':
 (cow-simple) begin
 (cow-simple) check data consistency
 Kernel PANIC at ../../vm/vm.c:55 in vm_alloc_page_with_initializer(): assertion `VM_TYPE(type) != VM_UNINIT' failed.
-Call stack: 0x800421847d 0x800422148a 0x8004221e8b 0x800421bdbd 0x8004207596.
+Call stack: 0x800421847d 0x800422148a 0x8004221f2b 0x800421bdbd 0x8004207596.
 The `backtrace' program can make call stacks useful.
 Read "Backtraces" in the "Debugging Tools" chapter
 of the Pintos documentation for more information.
-Timer: 176 ticks
-Thread: 72 idle ticks, 101 kernel ticks, 3 user ticks
+Timer: 183 ticks
+Thread: 90 idle ticks, 91 kernel ticks, 2 user ticks
 hd0:0: 0 reads, 0 writes
 hd0:1: 90 reads, 8066 writes
 hd1:0: 4019 reads, 0 writes
 hd1:1: 0 reads, 0 writes
-Console: 1272 characters output
+Console: 1271 characters output
 Key

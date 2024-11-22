@@ -275,10 +275,21 @@ static bool vm_copy_anon_page(struct supplemental_page_table *dst, void *kva, vo
 
 	struct frame *frame = (struct frame *)malloc(sizeof(struct frame));
 
+	if(!(page && frame)){
+		return false;
+	}
+
 	page->frame = frame;
-	page->write_bit = writable;
+	page->rw = writable;
 	frame->page = page;
 	frame->kva = kva;
+
+	if (!pml4_set_page(thread_current()->pml4, page->va, frame->kva, false)) {
+        free(frame);
+        return false;
+    }
+
+	list_push_back(&frame_table, &frame->frame_elem);
 	
 	return swap_in(page, frame->kva);
 }
