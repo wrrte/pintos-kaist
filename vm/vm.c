@@ -342,7 +342,7 @@ supplemental_page_table_copy (struct supplemental_page_table *dst UNUSED,
 
 			case VM_UNINIT:
 				ASSERT(dst == &thread_current()->spt);
-				if(!vm_alloc_page_with_initializer(src_page->operations->type, src_page->va, src_page->write_bit, src_page->uninit.init, src_page->uninit.aux))
+				if(!vm_alloc_page_with_initializer(page_get_type(src_page), src_page->va, src_page->write_bit, src_page->uninit.init, src_page->uninit.aux))
                     return false;
 				///dst_page = spt_find_page(dst, src_page->va); 같은거 안 필요한가?
 				break;
