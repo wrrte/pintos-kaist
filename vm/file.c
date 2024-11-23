@@ -114,13 +114,12 @@ do_mmap (void *addr, size_t length, int writable,
 		page_zero_bytes = PGSIZE - page_read_bytes;
 		
 		page_aux = (struct page_aux *)malloc(sizeof(struct page_aux));
-		page_aux->file = file;
+		page_aux->file = newfile;
 		page_aux->offset = offset;
 		page_aux->page_read_bytes = page_read_bytes;
 
-		if (!vm_alloc_page_with_initializer (VM_ANON, addr,
-					writable, lazy_load_segment, page_aux))
-			return false;
+		if (!vm_alloc_page_with_initializer (VM_FILE, addr, writable, lazy_load_segment, page_aux))
+			goto ret;
 
 		read_bytes -= page_read_bytes;
 		zero_bytes -= page_zero_bytes;
@@ -135,7 +134,7 @@ do_mmap (void *addr, size_t length, int writable,
 ret:
 	free(page_aux);
 	lock_release(&file_lock);
-	return addr;
+	return NULL;
 }
 
 /* Do the munmap */
