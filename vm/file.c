@@ -98,7 +98,7 @@ do_mmap (void *addr, size_t length, int writable,
 	lock_acquire(&file_lock);
 
 	struct file *newfile = file_reopen(file);
-
+    void* old_addr = addr;
 	size_t read_bytes = (length > file_length(newfile)) ? file_length(newfile) : length;
     size_t zero_bytes = PGSIZE - read_bytes % PGSIZE;
 	size_t page_read_bytes, page_zero_bytes;
@@ -114,6 +114,9 @@ do_mmap (void *addr, size_t length, int writable,
 		page_zero_bytes = PGSIZE - page_read_bytes;
 		
 		page_aux = (struct page_aux *)malloc(sizeof(struct page_aux));
+
+        if(!page_aux) goto ret;
+
 		page_aux->file = newfile;
 		page_aux->offset = offset;
 		page_aux->page_read_bytes = page_read_bytes;
@@ -129,7 +132,7 @@ do_mmap (void *addr, size_t length, int writable,
 
 	lock_release(&file_lock);
 
-	return addr;
+	return old_addr;
 
 ret:
 	free(page_aux);
