@@ -133,14 +133,14 @@ vm_get_victim (void) {
 	struct thread *curr = thread_current();
 
     // Clock 방식으로 결정
-    if(clock_ptr == NULL || clock_ptr == list_end(&frame_table)) {
+    if(clock_ptr == NULL) {
         clock_ptr = list_begin(&frame_table);
     }
 
     while (true) {
         victim = list_entry(clock_ptr, struct frame, frame_elem);
         if(!pml4_is_accessed(curr->pml4, victim->page->va)) {
-            clock_ptr = list_next(clock_ptr);
+            //clock_ptr = list_next(clock_ptr);
             return victim;
         }
         pml4_set_accessed(curr->pml4, victim->page->va, false);
