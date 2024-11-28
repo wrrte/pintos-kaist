@@ -8,6 +8,8 @@
 #include "filesys/directory.h"
 #include "devices/disk.h"
 
+#include "threads/thread.h"
+
 /* The disk that contains the file system. */
 struct disk *filesys_disk;
 
@@ -30,6 +32,8 @@ filesys_init (bool format) {
 		do_format ();
 
 	fat_open ();
+
+	thread_current()->current_working_directory = dir_open_root();
 #else
 	/* Original FS */
 	free_map_init ();
@@ -119,4 +123,23 @@ do_format (void) {
 #endif
 
 	printf ("done.\n");
+}
+
+struct dir *get_dir(char *path_name, char *target){
+
+	struct dir *dir = dir_open_root();
+
+
+}
+
+bool filesys_chdir(const char *dir){
+	thread_current()->current_working_directory = dir;
+}
+
+bool filesys_mkdir(const char *dir){
+
+}
+
+bool filesys_symlink(const char *target, const char *linkpath){
+
 }
