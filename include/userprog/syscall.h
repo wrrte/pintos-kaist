@@ -36,4 +36,11 @@ extern struct lock file_lock;
 
 int dup2(int oldfd, int newfd);
 
+bool chdir (const char *dir);
+bool mkdir (const char *dir);
+bool readdir (int fd, char *name);
+bool isdir (int fd);
+int inumber (int fd);
+int symlink (const char *target, const char *linkpath);
+
 #endif /* userprog/syscall.h */

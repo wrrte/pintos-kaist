@@ -421,3 +421,45 @@ void munmap (void *addr){
     do_munmap(addr);
 }
 #endif
+
+#ifdef EFILESYS
+bool chdir (const char *dir){
+    return filesys_chdir(dir);
+}
+
+bool mkdir (const char *dir){
+    return filesys_mkdir(dir);
+}
+
+bool readdir (int fd, char *name){
+
+    struct file *file = get_file(fd);
+
+    if (!file || inode_get_type(file->inode) != 1)
+        return false;
+
+    return dir_readdir((struct dir *)file, name);
+}
+
+bool isdir (int fd){
+
+    struct file *file = process_get_file(fd);
+
+    if (!file || inode_get_type(file->inode) != 1)
+        return false;
+
+    return true;
+}
+
+int inumber (int fd){
+    return inode_get_inumber(get_file(fd)->inode);
+}
+
+int symlink (const char *target, const char *linkpath){
+    
+    check_addr(target);
+    check_addr(linkpath);
+
+    return filesys_symlink(target, linkpath) ? 0 : -1;
+}
+#endif
