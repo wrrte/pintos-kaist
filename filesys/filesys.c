@@ -125,11 +125,56 @@ do_format (void) {
 	printf ("done.\n");
 }
 
-struct dir *get_dir(char *path_name, char *target){
+struct dir *get_dir(char *path, char *target){
 
 	struct dir *dir = dir_open_root();
 
+	if (path[0] != '/' && thread_current()->current_working_directory != NULL) {
+        dir_close(dir);
+        dir = dir_reopen(thread_current()->current_working_directory);
+    }
 
+	char *ptr;
+	char *token = strtok_r(path, "/", &ptr);
+	struct inode *inode = NULL;
+	char target[128];
+
+	if (token == NULL)
+        return dir_open_root();
+
+	while (char *next_token = strtok_r(NULL, "/", &ptr); next_token != NULL; next_token = strtok_r(NULL, "/", &ptr)) {
+
+        if (!dir_lookup(dir, token, &inode))
+            goto ret;
+
+        while (inode_get_type(inode) == INODE_LINK) {
+            
+            target[0] = '\0';
+
+            struct dir *target_dir = parse_path(inode_get_linkpath(inode), target);
+
+            if (!dir_lookup(target_dir, target, &inode))
+                goto ret;
+        }
+
+        dir_close(dir);
+        dir = dir_open(inode);
+
+        token = next_token;
+    }
+
+    if (token == NULL || strlen(token) >= 128)
+        goto ret;
+
+    strlcpy(target, token, strlen(token) + 1);
+
+    free(path);
+    return dir;
+
+ret:
+    free(path);
+    dir_close(dir);
+    return NULL;
 }
 
 bool filesys_chdir(const char *dir){
