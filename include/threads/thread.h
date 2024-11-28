@@ -142,6 +142,8 @@ struct thread {
 	
 #endif
 
+	struct dir *current_working_directory;
+
 	/* Owned by thread.c. */
 	struct intr_frame tf;               /* Information for switching */
 	unsigned magic;                     /* Detects stack overflow. */

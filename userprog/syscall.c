@@ -14,6 +14,9 @@
 #include "include/threads/synch.h"
 #include "threads/palloc.h"
 
+#include "filesys/inode.h"
+#include "filesys/directory.h"
+
 void syscall_entry (void);
 void syscall_handler (struct intr_frame *);
 
@@ -435,7 +438,7 @@ bool readdir (int fd, char *name){
 
     struct file *file = get_file(fd);
 
-    if (!file || inode_get_type(file->inode) != 1)
+    if (!file || file->inode->data.type != INODE_DIR)
         return false;
 
     return dir_readdir((struct dir *)file, name);
@@ -443,9 +446,9 @@ bool readdir (int fd, char *name){
 
 bool isdir (int fd){
 
-    struct file *file = process_get_file(fd);
+    struct file *file = get_file(fd);
 
-    if (!file || inode_get_type(file->inode) != 1)
+    if (!file || file->inode->data.type != INODE_DIR)
         return false;
 
     return true;
