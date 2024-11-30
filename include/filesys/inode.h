@@ -35,6 +35,7 @@ struct inode_disk {
 	uint32_t unused[125];               /* Not used. */
 	
 	uint32_t type;
+	char linkpath[128];
 };
 
 /* In-memory inode. */

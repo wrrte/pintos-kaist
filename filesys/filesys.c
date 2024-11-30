@@ -212,9 +212,18 @@ bool filesys_mkdir(const char *dir){
     if (strlen(dir) == 0)
         return false;
 
+    struct dir *dir_path = get_dir(dir, target);
+    if (dir_path == NULL)
+        return false;
+
+    struct dir *sdir = dir_reopen(dir_path);
+
 	return true;
 }
 
 bool filesys_symlink(const char *target, const char *linkpath){
 
+	strlcpy(inode->data.linkpath, target, 128);
+
+    return true;
 }
