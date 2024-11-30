@@ -218,7 +218,27 @@ bool filesys_mkdir(const char *dir){
 
     struct dir *sdir = dir_reopen(dir_path);
 
-	return true;
+	bool ret = (sdir != NULL && inode_create(inode_sector, 0, DIR_TYPE) && dir_add(sdir, target, inode_sector));
+
+    if(!ret && inode_cluster != 0)
+        fat_remove_chain(inode_cluster, 0);
+
+    if(ret){
+        struct inode *inode = NULL;
+        dir_lookup(sdir, target, &inode);
+        struct dir *sdir2 = dir_open(inode);
+
+        if (!dir_add(sdir2, ".", inode_sector))
+            ret = false;
+        if (!dir_add(sdir2, "..", inode_get_inumber(dir_get_inode(sdir))))
+            ret = false;
+
+        dir_close(sdir2);
+    }
+
+    dir_close(sdir);
+
+    return ret;
 }
 
 bool filesys_symlink(const char *target, const char *linkpath){
