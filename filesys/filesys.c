@@ -125,9 +125,12 @@ do_format (void) {
 	printf ("done.\n");
 }
 
-struct dir *get_dir(char *path, char *target){
+struct dir *get_dir(char *path_name, char *target){
 
 	struct dir *dir = dir_open_root();
+
+	char *path = malloc(strlen(path_name) + 1);
+	strlcpy(path, path_name, strlen(path_name) + 1);
 
 	if (path[0] != '/' && thread_current()->current_working_directory != NULL) {
         dir_close(dir);
@@ -178,7 +181,25 @@ ret:
 }
 
 bool filesys_chdir(const char *dir){
-	thread_current()->current_working_directory = dir;
+
+    struct inode *inode = NULL;
+
+    char target[128];
+    target[0] = '\0';
+	
+    struct dir *dir = get_dir(dir_name, target);
+
+    if (!dir_lookup(dir, target, &inode))
+        return false;
+
+    if (inode_get_type(inode) == 0 || inode_is_removed(inode))
+        return false;
+
+    dir = dir_open(inode);
+
+    thread_current()->current_working_directory = dir;
+
+    return true;
 }
 
 bool filesys_mkdir(const char *dir){
