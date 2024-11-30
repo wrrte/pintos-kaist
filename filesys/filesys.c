@@ -150,11 +150,11 @@ struct dir *get_dir(char *path_name, char *target){
         if (!dir_lookup(dir, token, &inode))
             goto ret;
 
-        while (inode_get_type(inode) == INODE_LINK) {
+        while (inode->data.type == INODE_LINK) {
             
             target[0] = '\0';
 
-            struct dir *target_dir = parse_path(inode_get_linkpath(inode), target);
+            struct dir *target_dir = parse_path(inode->data.linkpath, target);
 
             if (!dir_lookup(target_dir, target, &inode))
                 goto ret;
@@ -192,7 +192,7 @@ bool filesys_chdir(const char *dir){
     if (!dir_lookup(dir, target, &inode))
         return false;
 
-    if (inode_get_type(inode) == 0 || inode_is_removed(inode))
+    if (inode->data.type == 0 || inode->removed)
         return false;
 
     dir = dir_open(inode);
