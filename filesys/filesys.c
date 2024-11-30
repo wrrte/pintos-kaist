@@ -9,6 +9,7 @@
 #include "devices/disk.h"
 
 #include "threads/thread.h"
+#include "filesys/fat.h"
 
 /* The disk that contains the file system. */
 struct disk *filesys_disk;
@@ -204,6 +205,14 @@ bool filesys_chdir(const char *dir){
 
 bool filesys_mkdir(const char *dir){
 
+	cluster_t inode_cluster = fat_create_chain(0);
+    disk_sector_t inode_sector = cluster_to_sector(inode_cluster);
+    char target[128];
+
+    if (strlen(dir) == 0)
+        return false;
+
+	return true;
 }
 
 bool filesys_symlink(const char *target, const char *linkpath){
