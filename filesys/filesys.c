@@ -64,17 +64,44 @@ filesys_done (void) {
  * or if internal memory allocation fails. */
 bool
 filesys_create (const char *name, off_t initial_size) {
+#ifndef EFILESYS
 	disk_sector_t inode_sector = 0;
 	struct dir *dir = dir_open_root ();
 	bool success = (dir != NULL
 			&& free_map_allocate (1, &inode_sector)
-			&& inode_create (inode_sector, initial_size, INODE_FILE)
+			&& inode_create (inode_sector, initial_size)
 			&& dir_add (dir, name, inode_sector));
 	if (!success && inode_sector != 0)
 		free_map_release (inode_sector, 1);
 	dir_close (dir);
 
 	return success;
+#else
+    cluster_t cluster = fat_create_chain(0);
+    disk_sector_t sector = cluster_to_sector(cluster);
+
+    char file_name[128];
+    file_name[0] = '\0';
+
+    struct dir *dir_path = parse_linkpath(name, file_name);
+
+    if (strcmp(file_name, "") == 0)
+        return false;
+
+    if (dir_path == NULL || dir_get_inode(dir_path)->removed)
+        return false;
+
+    struct dir *dir = dir_reopen(dir_path);
+
+    bool success = (dir != NULL && inode_create(sector, initial_size, INODE_FILE) && dir_add(dir, file_name, sector));
+
+    if (!success && sector != 0)
+        fat_remove_chain(cluster, 1);
+
+    dir_close(dir);
+
+    return success;
+#endif
 }
 
 /* Opens the file with the given NAME.
