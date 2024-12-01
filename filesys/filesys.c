@@ -141,23 +141,23 @@ struct dir *parse_linkpath(char *path_name, char *target){
 	char *ptr;
 	char *token = strtok_r(path, "/", &ptr);
 	struct inode *inode = NULL;
-	char target[128];
 
 	if (token == NULL)
         return dir_open_root();
 
-	while (char *next_token = strtok_r(NULL, "/", &ptr); next_token != NULL; next_token = strtok_r(NULL, "/", &ptr)) {
+	for(char *next_token = strtok_r(NULL, "/", &ptr); next_token != NULL; next_token = strtok_r(NULL, "/", &ptr)) {
 
         if (!dir_lookup(dir, token, &inode))
             goto ret;
 
         while (inode->data.type == INODE_LINK) {
             
-            target[0] = '\0';
+			char link_target[128];
+            link_target[0] = '\0';
 
-            struct dir *target_dir = parse_path(inode->data.linkpath, target);
+            struct dir *target_dir = parse_linkpath(inode->data.linkpath, link_target);
 
-            if (!dir_lookup(target_dir, target, &inode))
+            if (!dir_lookup(target_dir, link_target, &inode))
                 goto ret;
         }
 
@@ -188,17 +188,17 @@ bool filesys_chdir(const char *dir){
     char link_name[128];
     link_name[0] = '\0';
 	
-    struct dir *dir = parse_linkpath(dir_name, link_name);
+    struct dir *dir_path = parse_linkpath(dir, link_name);
 
-    if (!dir_lookup(dir, link_name, &inode))
+    if (!dir_lookup(dir_path, link_name, &inode))
         return false;
 
     if (inode->data.type == 0 || inode->removed)
         return false;
 
-    dir = dir_open(inode);
+    dir_path = dir_open(inode);
 
-    thread_current()->current_working_directory = dir;
+    thread_current()->current_working_directory = dir_path;
 
     return true;
 }
@@ -217,27 +217,25 @@ bool filesys_mkdir(const char *dir){
     if (dir_path == NULL)
         return false;
 
-    struct dir *rdir = dir_reopen(dir_path);
-
-	bool success = (rdir != NULL && inode_create(sector, 0, DIR_TYPE) && dir_add(rdir, link_name, sector));
+	bool success = (dir != NULL && inode_create(sector, 0) && dir_add(dir, link_name, sector));
 
     if(!success && cluster != 0)
         fat_remove_chain(cluster, 0);
 
     if(success){
         struct inode *inode = NULL;
-        dir_lookup(rdir, link_name, &inode);
-        struct dir *rdir2 = dir_open(inode);
+        dir_lookup(dir, link_name, &inode);
+        struct dir *dir2 = dir_open(inode);
 
-        if (!dir_add(rdir2, ".", sector))
+        if (!dir_add(dir2, ".", sector))
             success = false;
-        if (!dir_add(rdir2, "..", inode_get_inumber(dir_get_inode(rdir))))
+        if (!dir_add(dir2, "..", inode_get_inumber(dir_get_inode(dir))))
             success = false;
 
-        dir_close(rdir2);
+        dir_close(dir2);
     }
 
-    dir_close(rdir);
+    dir_close(dir);
 
     return success;
 }
@@ -252,15 +250,15 @@ bool filesys_symlink(const char *target, const char *linkpath){
 	char link_name[128];
     link_name[0] = '\0';
 
-	struct dir *link_dir = parse_path(linkpath, link_name);
+	struct dir *link_dir = parse_linkpath(linkpath, link_name);
 
     if (strcmp(link_name, "") == 0)
         return false;
 
-    if (link_dir == NULL || inode_is_removed(dir_get_inode(link_dir)))
+    if (link_dir == NULL || dir_get_inode(link_dir)->removed)
         return false;
 
-    bool success = (link_dir != NULL && inode_create(sector, 0, LINK_TYPE) && dir_add(link_dir, link_name, sector));
+    bool success = (link_dir != NULL && inode_create(sector, 0) && dir_add(link_dir, link_name, sector));
 
 	if (!success && sector != 0) {
         fat_remove_chain(cluster, 1);
