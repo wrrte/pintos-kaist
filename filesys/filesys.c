@@ -126,7 +126,7 @@ do_format (void) {
 	printf ("done.\n");
 }
 
-struct dir *get_dir(char *path_name, char *target){
+struct dir *parse_linkpath(char *path_name, char *target){
 
 	struct dir *dir = dir_open_root();
 
@@ -188,7 +188,7 @@ bool filesys_chdir(const char *dir){
     char target[128];
     target[0] = '\0';
 	
-    struct dir *dir = get_dir(dir_name, target);
+    struct dir *dir = parse_linkpath(dir_name, target);
 
     if (!dir_lookup(dir, target, &inode))
         return false;
@@ -205,30 +205,30 @@ bool filesys_chdir(const char *dir){
 
 bool filesys_mkdir(const char *dir){
 
-	cluster_t inode_cluster = fat_create_chain(0);
-    disk_sector_t inode_sector = cluster_to_sector(inode_cluster);
+	cluster_t cluster = fat_create_chain(0);
+    disk_sector_t sector = cluster_to_sector(cluster);
     char target[128];
 
     if (strlen(dir) == 0)
         return false;
 
-    struct dir *dir_path = get_dir(dir, target);
+    struct dir *dir_path = parse_linkpath(dir, target);
     if (dir_path == NULL)
         return false;
 
     struct dir *sdir = dir_reopen(dir_path);
 
-	bool ret = (sdir != NULL && inode_create(inode_sector, 0, DIR_TYPE) && dir_add(sdir, target, inode_sector));
+	bool ret = (sdir != NULL && inode_create(sector, 0, DIR_TYPE) && dir_add(sdir, target, sector));
 
-    if(!ret && inode_cluster != 0)
-        fat_remove_chain(inode_cluster, 0);
+    if(!ret && cluster != 0)
+        fat_remove_chain(cluster, 0);
 
     if(ret){
         struct inode *inode = NULL;
         dir_lookup(sdir, target, &inode);
         struct dir *sdir2 = dir_open(inode);
 
-        if (!dir_add(sdir2, ".", inode_sector))
+        if (!dir_add(sdir2, ".", sector))
             ret = false;
         if (!dir_add(sdir2, "..", inode_get_inumber(dir_get_inode(sdir))))
             ret = false;
@@ -242,6 +242,9 @@ bool filesys_mkdir(const char *dir){
 }
 
 bool filesys_symlink(const char *target, const char *linkpath){
+
+	cluster_t cluster = fat_create_chain(0);
+    disk_sector_t sector = cluster_to_sector(cluster);
 
 	strlcpy(inode->data.linkpath, target, 128);
 
