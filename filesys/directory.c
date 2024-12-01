@@ -46,12 +46,19 @@ dir_open (struct inode *inode) {
 	}
 }
 
+#ifndef EFILESYS
 /* Opens the root directory and returns a directory for it.
  * Return true if successful, false on failure. */
 struct dir *
 dir_open_root (void) {
 	return dir_open (inode_open (ROOT_DIR_SECTOR));
 }
+#else
+struct dir *
+dir_open_root (void) {
+	return dir_open (inode_open (cluster_to_sector(ROOT_DIR_SECTOR)));
+}
+#endif
 
 /* Opens and returns a new directory for the same inode as DIR.
  * Returns a null pointer on failure. */
@@ -179,6 +186,11 @@ dir_remove (struct dir *dir, const char *name) {
 	ASSERT (dir != NULL);
 	ASSERT (name != NULL);
 
+#ifdef EFILESYS
+    if (name == "." || name == "..")
+        return false;
+#endif
+
 	/* Find directory entry. */
 	if (!lookup (dir, name, &e, &ofs))
 		goto done;
@@ -211,6 +223,10 @@ dir_readdir (struct dir *dir, char name[NAME_MAX + 1]) {
 
 	while (inode_read_at (dir->inode, &e, sizeof e, dir->pos) == sizeof e) {
 		dir->pos += sizeof e;
+#ifdef EFILESYS
+		if (!strcmp(e.name, ".") || !strcmp(e.name, ".."))
+            continue;
+#endif
 		if (e.in_use) {
 			strlcpy (name, e.name, NAME_MAX + 1);
 			return true;
