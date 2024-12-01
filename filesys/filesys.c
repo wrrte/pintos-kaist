@@ -185,12 +185,12 @@ bool filesys_chdir(const char *dir){
 
     struct inode *inode = NULL;
 
-    char target[128];
-    target[0] = '\0';
+    char link_name[128];
+    link_name[0] = '\0';
 	
-    struct dir *dir = parse_linkpath(dir_name, target);
+    struct dir *dir = parse_linkpath(dir_name, link_name);
 
-    if (!dir_lookup(dir, target, &inode))
+    if (!dir_lookup(dir, link_name, &inode))
         return false;
 
     if (inode->data.type == 0 || inode->removed)
@@ -207,38 +207,39 @@ bool filesys_mkdir(const char *dir){
 
 	cluster_t cluster = fat_create_chain(0);
     disk_sector_t sector = cluster_to_sector(cluster);
-    char target[128];
+    char link_name[128];
+	link_name[0] = '\0';
 
     if (strlen(dir) == 0)
         return false;
 
-    struct dir *dir_path = parse_linkpath(dir, target);
+    struct dir *dir_path = parse_linkpath(dir, link_name);
     if (dir_path == NULL)
         return false;
 
-    struct dir *sdir = dir_reopen(dir_path);
+    struct dir *rdir = dir_reopen(dir_path);
 
-	bool ret = (sdir != NULL && inode_create(sector, 0, DIR_TYPE) && dir_add(sdir, target, sector));
+	bool success = (rdir != NULL && inode_create(sector, 0, DIR_TYPE) && dir_add(rdir, link_name, sector));
 
-    if(!ret && cluster != 0)
+    if(!success && cluster != 0)
         fat_remove_chain(cluster, 0);
 
-    if(ret){
+    if(success){
         struct inode *inode = NULL;
-        dir_lookup(sdir, target, &inode);
-        struct dir *sdir2 = dir_open(inode);
+        dir_lookup(rdir, link_name, &inode);
+        struct dir *rdir2 = dir_open(inode);
 
-        if (!dir_add(sdir2, ".", sector))
-            ret = false;
-        if (!dir_add(sdir2, "..", inode_get_inumber(dir_get_inode(sdir))))
-            ret = false;
+        if (!dir_add(rdir2, ".", sector))
+            success = false;
+        if (!dir_add(rdir2, "..", inode_get_inumber(dir_get_inode(rdir))))
+            success = false;
 
-        dir_close(sdir2);
+        dir_close(rdir2);
     }
 
-    dir_close(sdir);
+    dir_close(rdir);
 
-    return ret;
+    return success;
 }
 
 bool filesys_symlink(const char *target, const char *linkpath){
@@ -246,7 +247,24 @@ bool filesys_symlink(const char *target, const char *linkpath){
 	cluster_t cluster = fat_create_chain(0);
     disk_sector_t sector = cluster_to_sector(cluster);
 
+	struct inode *target_inode = NULL;
+    struct inode *inode = NULL;
+	char link_name[128];
+    link_name[0] = '\0';
+
+	struct dir *link_dir = parse_path(linkpath, link_name);
+
+    if (strcmp(link_name, "") == 0)
+        return false;
+
+    if (link_dir == NULL || inode_is_removed(dir_get_inode(link_dir)))
+        return false;
+
+    bool success = (link_dir != NULL && inode_create(inode_sector, 0, LINK_TYPE) && dir_add(link_dir, link_name, inode_sector));
+
+    dir_lookup(link_dir, link_name, &inode);
+
 	strlcpy(inode->data.linkpath, target, 128);
 
-    return true;
+    return success;
 }
