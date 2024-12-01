@@ -8,6 +8,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "threads/synch.h"
+
 typedef uint32_t cluster_t;  /* Index of a cluster within FAT. */
 
 #define FAT_MAGIC 0xEB3C9000 /* MAGIC string to identify FAT disk */
@@ -34,5 +36,27 @@ void fat_remove_chain (
 cluster_t fat_get (cluster_t clst);
 void fat_put (cluster_t clst, cluster_t val);
 disk_sector_t cluster_to_sector (cluster_t clst);
+
+/* Should be less than DISK_SECTOR_SIZE */
+struct fat_boot {
+	unsigned int magic;
+	unsigned int sectors_per_cluster; /* Fixed to 1 */
+	unsigned int total_sectors;
+	unsigned int fat_start;
+	unsigned int fat_sectors; /* Size of FAT in sectors. */
+	unsigned int root_dir_cluster;
+};
+
+/* FAT FS */
+struct fat_fs {
+	struct fat_boot bs;
+	unsigned int *fat;
+	unsigned int fat_length;
+	disk_sector_t data_start;
+	cluster_t last_clst;
+	struct lock write_lock;
+};
+
+struct fat_fs *fat_fs;
 
 #endif /* filesys/fat.h */

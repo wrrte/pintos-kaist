@@ -19,6 +19,7 @@ bytes_to_sectors (off_t size) {
 	return DIV_ROUND_UP (size, DISK_SECTOR_SIZE);
 }
 
+#ifndef EFILESYS
 /* Returns the disk sector that contains byte offset POS within
  * INODE.
  * Returns -1 if INODE does not contain data for a byte at offset
@@ -31,6 +32,24 @@ byte_to_sector (const struct inode *inode, off_t pos) {
 	else
 		return -1;
 }
+#else
+static disk_sector_t
+byte_to_sector (const struct inode *inode, off_t pos) {
+	ASSERT (inode != NULL);
+
+	cluster_t cluster = inode->data.start - fat_fs->data_start;
+
+	for (cluster = cluster < 2 ? 0 : cluster; pos >= DISK_SECTOR_SIZE; pos -= DISK_SECTOR_SIZE) {
+
+        if (fat_get(cluster) == EOChain)
+            fat_create_chain(cluster);
+
+        cluster = fat_get(cluster);
+    }
+
+    return cluster_to_sector(cluster);
+}
+#endif
 
 /* List of open inodes, so that opening a single inode twice
  * returns the same `struct inode'. */
