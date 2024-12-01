@@ -91,7 +91,7 @@ filesys_create (const char *name, off_t initial_size) {
     if (dir == NULL || dir_get_inode(dir)->removed)
         return false;
 
-    //struct dir *dir = dir_reopen(dir_path);
+    ///struct dir *dir = dir_reopen(dir_path);
 
     bool success = (dir != NULL && inode_create(sector, initial_size, INODE_FILE) && dir_add(dir, file_name, sector));
 
@@ -131,12 +131,12 @@ filesys_open (const char *name) {
     file_name[0] = '\0';
 
     struct inode *inode = NULL;
-    struct dir *dir = parse_path(name, file_name);
+    struct dir *dir = parse_linkpath(name, file_name);
 
     if (dir == NULL || dir_get_inode(dir)->removed)
         return NULL;
 
-    //struct dir *dir = dir_reopen(dir_path);
+    ///struct dir *dir = dir_reopen(dir_path);
 
     if (!dir_lookup(dir, file_name, &inode))
         return NULL;
@@ -148,7 +148,7 @@ filesys_open (const char *name) {
         char file_name[128];
         file_name[0] = '\0';
 
-        struct dir *link_dir = parse_path(inode->data.path, file_name);
+        struct dir *link_dir = parse_linkpath(inode->data.path, file_name);
 
         if (!dir_lookup(link_dir, file_name, &inode))
             return NULL;
@@ -167,11 +167,67 @@ filesys_open (const char *name) {
  * or if an internal memory allocation fails. */
 bool
 filesys_remove (const char *name) {
+#ifndef EFILESYS
 	struct dir *dir = dir_open_root ();
 	bool success = dir != NULL && dir_remove (dir, name);
 	dir_close (dir);
 
 	return success;
+#else
+    if (strlen(name) == 1 && name[0] == '/')
+        return false;
+
+    char file_name[128];
+    file_name[0] = '\0';
+
+    struct dir *dir_path = parse_linkpath(name, file_name);
+
+    if (dir_path == NULL){
+        dir_close(dir_path);
+        return false;
+    }
+
+    struct inode *inode = NULL;
+
+    dir_lookup(dir_path, file_name, &inode);
+
+    while (inode_get_type(inode) == INODE_LINK) {
+        char file_name[128];
+        file_name[0] = '\0';
+
+        struct dir *target_dir = parse_linkpath(inode_get_linkpath(inode), file_name);
+
+        if (!dir_lookup(target_dir, file_name, &inode))
+            return NULL;
+
+        if (inode_is_removed(inode))
+            return NULL;
+    }
+
+    if (inode_get_type(inode) == INODE_DIR) {
+        struct dir *dir = dir_open(inode);
+
+        if (!dir_is_empty(dir) || inode_is_removed(inode))
+            return false;
+
+        dir_finddir(dir, dir_path, file_name);
+        dir_close(dir);
+
+        return dir_remove(dir_path, file_name);
+    }
+
+    struct dir *file = dir_reopen(dir_path);
+
+    bool success = file != NULL && dir_remove(file, file_name);
+
+    if (dir_lookup(dir_path, file_name, &inode))
+        return false;
+
+    file_close(file);
+
+    dir_close(dir_path);
+    return success;
+#endif
 }
 
 /* Formats the file system. */
