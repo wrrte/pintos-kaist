@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "threads/synch.h"
+
 /* Should be less than DISK_SECTOR_SIZE */
 struct fat_boot {
 	unsigned int magic;
