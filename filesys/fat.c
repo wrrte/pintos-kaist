@@ -5,6 +5,28 @@
 #include <stdio.h>
 #include <string.h>
 
+/* Should be less than DISK_SECTOR_SIZE */
+struct fat_boot {
+	unsigned int magic;
+	unsigned int sectors_per_cluster; /* Fixed to 1 */
+	unsigned int total_sectors;
+	unsigned int fat_start;
+	unsigned int fat_sectors; /* Size of FAT in sectors. */
+	unsigned int root_dir_cluster;
+};
+
+/* FAT FS */
+struct fat_fs {
+	struct fat_boot bs;
+	unsigned int *fat;
+	unsigned int fat_length;
+	disk_sector_t data_start;
+	cluster_t last_clst;
+	struct lock write_lock;
+};
+
+static struct fat_fs *fat_fs;
+
 void fat_boot_create (void);
 void fat_fs_init (void);
 
@@ -200,4 +222,10 @@ disk_sector_t
 cluster_to_sector (cluster_t clst) {
 	/* TODO: Your code goes here. */
 	return fat_fs->data_start + clst;
+}
+
+cluster_t sector_to_cluster(disk_sector_t sector) {
+    cluster_t cluster = sector - fat_fs->data_start;
+
+    return cluster < 2 ? 0 : cluster;
 }

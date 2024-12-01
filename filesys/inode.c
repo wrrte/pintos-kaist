@@ -37,7 +37,7 @@ static disk_sector_t
 byte_to_sector (const struct inode *inode, off_t pos) {
 	ASSERT (inode != NULL);
 
-	cluster_t cluster = inode->data.start - fat_fs->data_start;
+	cluster_t cluster = sector_to_cluster(inode->data.start);
 
 	for (cluster = cluster < 2 ? 0 : cluster; pos >= DISK_SECTOR_SIZE; pos -= DISK_SECTOR_SIZE) {
 
