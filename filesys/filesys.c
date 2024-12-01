@@ -260,7 +260,12 @@ bool filesys_symlink(const char *target, const char *linkpath){
     if (link_dir == NULL || inode_is_removed(dir_get_inode(link_dir)))
         return false;
 
-    bool success = (link_dir != NULL && inode_create(inode_sector, 0, LINK_TYPE) && dir_add(link_dir, link_name, inode_sector));
+    bool success = (link_dir != NULL && inode_create(sector, 0, LINK_TYPE) && dir_add(link_dir, link_name, sector));
+
+	if (!success && sector != 0) {
+        fat_remove_chain(cluster, 1);
+        return success;
+    }
 
     dir_lookup(link_dir, link_name, &inode);
 
