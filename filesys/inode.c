@@ -7,6 +7,8 @@
 #include "filesys/free-map.h"
 #include "threads/malloc.h"
 
+#include "filesys/fat.h"
+
 /* Identifies an inode. */
 #define INODE_MAGIC 0x494e4f44
 
@@ -81,29 +83,43 @@ inode_create (disk_sector_t sector, off_t length) {
 bool
 inode_create (disk_sector_t sector, off_t length, int32_t type) {
 	struct inode_disk *disk_inode = NULL;
+	cluster_t cluster;
 	bool success = false;
 
 	ASSERT (length >= 0);
-
-	/* If this assertion fails, the inode structure is not exactly
-	 * one sector in size, and you should fix that. */
 	ASSERT (sizeof *disk_inode == DISK_SECTOR_SIZE);
 
 	disk_inode = calloc (1, sizeof *disk_inode);
+
 	if (disk_inode != NULL) {
+
 		size_t sectors = bytes_to_sectors (length);
+
 		disk_inode->length = length;
 		disk_inode->magic = INODE_MAGIC;
 		disk_inode->type = type;
-		if (free_map_allocate (sectors, &disk_inode->start)) {
-			disk_write (filesys_disk, sector, disk_inode);
-			if (sectors > 0) {
-				static char zeros[DISK_SECTOR_SIZE];
-				size_t i;
 
-				for (i = 0; i < sectors; i++) 
-					disk_write (filesys_disk, disk_inode->start + i, zeros); 
-			}
+		if (cluster = fat_create_chain(0)) {
+			
+			disk_inode->start = cluster_to_sector(cluster);
+
+			disk_write (filesys_disk, sector, disk_inode);
+
+			if (sectors > 0) {
+                static char zeros[DISK_SECTOR_SIZE];
+                
+                size_t i;
+
+                /* make cluster chain based length and initialize zero*/
+                for (disk_sector_t w_sector; sectors > 0; sectors--) {
+
+                    w_sector = cluster_to_sector(cluster);
+
+                    disk_write(filesys_disk, w_sector, zeros);
+
+                    cluster = fat_create_chain(cluster);
+                }
+            }
 			success = true; 
 		} 
 		free (disk_inode);
