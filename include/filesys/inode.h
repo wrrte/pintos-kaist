@@ -36,7 +36,7 @@ struct inode_disk {
 	disk_sector_t start;                /* First data sector. */
 	off_t length;                       /* File size in bytes. */
 	unsigned magic;                     /* Magic number. */
-	uint32_t unused[125];               /* Not used. */
+	uint32_t unused[92];                /* 92여야 struct 크기가 딱 512byte가 됨. */
 	
 	uint32_t type;
 	char linkpath[128];
