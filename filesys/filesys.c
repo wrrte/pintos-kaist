@@ -191,26 +191,40 @@ filesys_remove (const char *name) {
 
     dir_lookup(dir_path, file_name, &inode);
 
-    while (inode_get_type(inode) == INODE_LINK) {
+    while (inode->data.type == INODE_LINK) {
         char file_name[128];
         file_name[0] = '\0';
 
-        struct dir *target_dir = parse_linkpath(inode_get_linkpath(inode), file_name);
+        struct dir *target_dir = parse_linkpath(inode->data.linkpath, file_name);
 
         if (!dir_lookup(target_dir, file_name, &inode))
             return NULL;
 
-        if (inode_is_removed(inode))
+        if (inode->removed)
             return NULL;
     }
 
-    if (inode_get_type(inode) == INODE_DIR) {
+    if (inode->data.type == INODE_DIR) {
         struct dir *dir = dir_open(inode);
 
-        if (!dir_is_empty(dir) || inode_is_removed(inode))
-            return false;
+        char name[15];
 
-        dir_finddir(dir, dir_path, file_name);
+        if (dir_readdir(dir, name) || inode->removed)
+            return false;
+        
+        struct dir_entry de;
+        uint64_t s = sizeof de;
+
+        while(inode_read_at(dir->inode, &de, s, dir->pos) == s) {
+            dir->pos += s;
+            if (de.in_use) {
+                if (de.inode_sector == dir_path->inode->sector) {
+                    strlcpy(file_name, de.name, NAME_MAX + 1);
+                    break;
+                }
+            }
+        }
+
         dir_close(dir);
 
         return dir_remove(dir_path, file_name);
