@@ -17,9 +17,9 @@ bool filesys_create (const char *name, off_t initial_size);
 struct file *filesys_open (const char *name);
 bool filesys_remove (const char *name);
 
-struct dir *get_dir(char *path_name, char *target);
-bool filesys_chdir(const char *dir);
-bool filesys_mkdir(const char *dir);
+struct dir *parse_linkpath(char *path_name, char *file_name);
+bool filesys_chdir(const char *dir_name);
+bool filesys_mkdir(const char *dir_name);
 bool filesys_symlink(const char *target, const char *linkpath);
 
 #endif /* filesys/filesys.h */

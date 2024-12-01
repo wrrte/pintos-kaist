@@ -68,7 +68,7 @@ filesys_create (const char *name, off_t initial_size) {
 	struct dir *dir = dir_open_root ();
 	bool success = (dir != NULL
 			&& free_map_allocate (1, &inode_sector)
-			&& inode_create (inode_sector, initial_size)
+			&& inode_create (inode_sector, initial_size, INODE_FILE)
 			&& dir_add (dir, name, inode_sector));
 	if (!success && inode_sector != 0)
 		free_map_release (inode_sector, 1);
@@ -217,7 +217,7 @@ bool filesys_mkdir(const char *dir_name){
     if (dir == NULL)
         return false;
 
-	bool success = (dir != NULL && inode_create(sector, 0) && dir_add(dir, file_name, sector));
+	bool success = (dir != NULL && inode_create(sector, 0, INODE_DIR) && dir_add(dir, file_name, sector));
 
     if(!success && cluster != 0)
         fat_remove_chain(cluster, 0);
@@ -258,7 +258,7 @@ bool filesys_symlink(const char *target, const char *linkpath){
     if (dir == NULL || dir_get_inode(dir)->removed)
         return false;
 
-    bool success = (dir != NULL && inode_create(sector, 0) && dir_add(dir, file_name, sector));
+    bool success = (dir != NULL && inode_create(sector, 0, INODE_LINK) && dir_add(dir, file_name, sector));
 
 	if (!success && sector != 0) {
         fat_remove_chain(cluster, 1);
