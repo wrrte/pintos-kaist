@@ -9,22 +9,7 @@
 
 struct bitmap;
 
-void inode_init (void);
-#ifndef EFILESYS
-bool inode_create (disk_sector_t, off_t);
-#else
-bool inode_create (disk_sector_t, off_t, int32_t);
-#endif
-struct inode *inode_open (disk_sector_t);
-struct inode *inode_reopen (struct inode *);
-disk_sector_t inode_get_inumber (const struct inode *);
-void inode_close (struct inode *);
-void inode_remove (struct inode *);
-off_t inode_read_at (struct inode *, void *, off_t size, off_t offset);
-off_t inode_write_at (struct inode *, const void *, off_t size, off_t offset);
-void inode_deny_write (struct inode *);
-void inode_allow_write (struct inode *);
-off_t inode_length (const struct inode *);
+
 
 #define INODE_FILE 1
 #define INODE_DIR 2
@@ -51,5 +36,25 @@ struct inode {
 	int deny_write_cnt;                 /* 0: writes ok, >0: deny writes. */
 	struct inode_disk data;             /* Inode content. */
 };
+
+void inode_init (void);
+#ifndef EFILESYS
+bool inode_create (disk_sector_t, off_t);
+#else
+bool inode_create (disk_sector_t, off_t, int32_t);
+#endif
+struct inode *inode_open (disk_sector_t);
+struct inode *inode_reopen (struct inode *);
+disk_sector_t inode_get_inumber (const struct inode *);
+void inode_close (struct inode *);
+void inode_remove (struct inode *);
+off_t inode_read_at (struct inode *, void *, off_t size, off_t offset);
+off_t inode_write_at (struct inode *, const void *, off_t size, off_t offset);
+void inode_deny_write (struct inode *);
+void inode_allow_write (struct inode *);
+off_t inode_length (const struct inode *);
+
+struct inode *dive_linkpath(struct inode *inode);
+struct inode *surface_linkpath(struct inode *inode);
 
 #endif /* filesys/inode.h */
