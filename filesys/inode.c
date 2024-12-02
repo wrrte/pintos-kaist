@@ -12,6 +12,8 @@
 /* Identifies an inode. */
 #define INODE_MAGIC 0x494e4f44
 
+static struct inode *backup_inode;
+
 /* Returns the number of sectors to allocate for an inode SIZE
  * bytes long. */
 static inline size_t
@@ -59,6 +61,8 @@ static struct list open_inodes;
 void
 inode_init (void) {
 	list_init (&open_inodes);
+
+	backup_inode = NULL;
 }
 
 #ifndef EFILESYS
@@ -194,6 +198,7 @@ inode_get_inumber (const struct inode *inode) {
 	return inode->sector;
 }
 
+#ifndef EFILESYS
 /* Closes INODE and writes it to disk.
  * If this was the last reference to INODE, frees its memory.
  * If INODE was also a removed inode, frees its blocks. */
@@ -218,6 +223,29 @@ inode_close (struct inode *inode) {
 		free (inode); 
 	}
 }
+#else
+void inode_close(struct inode *inode) {
+
+    if (inode == NULL)
+        return;
+
+    if (--inode->open_cnt == 0) {
+
+        struct inode *file_inode = dive_linkpath(inode);
+
+        list_remove(&inode->elem);
+
+        if (inode->removed)
+            fat_remove_chain(inode->sector, 0);
+
+        disk_write(filesys_disk, inode->sector, &file_inode->data);
+
+        file_inode = surface_linkpath(inode);
+
+        free(inode);
+    }
+}
+#endif
 
 /* Marks INODE to be deleted when it is closed by the last caller who
  * has it open. */
@@ -235,6 +263,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	uint8_t *buffer = buffer_;
 	off_t bytes_read = 0;
 	uint8_t *bounce = NULL;
+
+#ifdef EFILESYS
+	inode = dive_linkpath(inode);
+#endif
 
 	while (size > 0) {
 		/* Disk sector to read, starting byte offset within sector. */
@@ -273,6 +305,10 @@ inode_read_at (struct inode *inode, void *buffer_, off_t size, off_t offset) {
 	}
 	free (bounce);
 
+#ifdef EFILESYS
+	inode = surface_linkpath(inode);
+#endif
+
 	return bytes_read;
 }
 
@@ -287,6 +323,13 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
 	const uint8_t *buffer = buffer_;
 	off_t bytes_written = 0;
 	uint8_t *bounce = NULL;
+
+#ifdef EFILESYS
+	off_t old_offset = offset;
+
+    if (inode->deny_write_cnt)
+        return 0;
+#endif
 
 	if (inode->deny_write_cnt)
 		return 0;
@@ -335,6 +378,13 @@ inode_write_at (struct inode *inode, const void *buffer_, off_t size,
 	}
 	free (bounce);
 
+#ifdef EFILESYS
+    if (inode_length(inode) < old_offset + bytes_written)
+        inode->data.length = old_offset + bytes_written;
+
+    inode = surface_linkpath(inode);
+#endif
+
 	return bytes_written;
 }
 
@@ -361,4 +411,40 @@ inode_allow_write (struct inode *inode) {
 off_t
 inode_length (const struct inode *inode) {
 	return inode->data.length;
+}
+
+struct inode *dive_linkpath(struct inode *inode){
+
+    if (inode->removed != INODE_LINK)
+        return inode;
+
+    backup_inode = inode;
+
+    while(inode->removed == INODE_LINK){
+
+        char file_name[128];
+        file_name[0] = '\0';
+
+        struct dir *dir = parse_linkpath(inode->data.linkpath, file_name);
+
+        if (!dir_lookup(dir, file_name, &inode) || inode->removed){
+            inode = backup_inode;
+            backup_inode = NULL;
+            exit(-172);
+        }
+    }
+
+    return inode;
+}
+
+struct inode *surface_linkpath(struct inode *inode){
+
+    if (backup_inode == NULL)
+        return inode;
+
+    struct inode *ret = backup_inode;
+
+    backup_inode = NULL;
+
+    return ret;
 }
