@@ -107,7 +107,15 @@ file_write (struct file *file, const void *buffer, off_t size) {
 off_t
 file_write_at (struct file *file, const void *buffer, off_t size,
 		off_t file_ofs) {
-	return inode_write_at (file->inode, buffer, size, file_ofs);
+
+	if (file->inode->data.type == 1)
+        return -1;
+
+    off_t ret = inode_write_at(file->inode, buffer, size, file->pos);
+
+    file->pos += ret;
+
+    return ret;
 }
 
 /* Prevents write operations on FILE's underlying inode
